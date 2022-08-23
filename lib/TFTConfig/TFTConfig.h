@@ -1,6 +1,7 @@
 /*
     @author: Henrique Vilela
-    @date: 2022-08-20
+    @created: 2022-08-20
+    @updated: 2022-08-22    
     @version: 1.0
     @description
         General configuration for using the TFT Touch Screen

@@ -17,12 +17,12 @@ TFTObject::TFTObject(TFTScreen *tftScreen, int x, int y, const char *title, TFTO
     this->position = position;
 
     this->padding = 30;
-    const unsigned short fontWidth = 18;
-    const unsigned short fontHeight = 20;
+    const unsigned short charWidth = 12;
+    const unsigned short charHeight = 20;
 
     const unsigned short textLength = strlen(this->title);
-    const unsigned short textWidth = textLength * fontWidth;
-    const unsigned short textHeight = fontHeight;
+    const unsigned short textWidth = textLength * charWidth;
+    const unsigned short textHeight = charHeight;
     const unsigned short rectWidth = textWidth + padding;
     const unsigned short rectHeight = textHeight + padding;
 

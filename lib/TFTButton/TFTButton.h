@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-21
+    @updated: 2022-08-22
     @version: 1.0
     @description
         Generate buttons for TFT Button
@@ -14,19 +14,19 @@
 #include <TFTObject.h>
 
 enum BUTTON_TYPE {
-    TEXT_BLUE,  // "Any text"
-    TEXT_GREEN,
-    TEXT_RED,
-    ARROW_LEFT,  // "Arrows"
-    ARROW_RIGHT,
-    ARROW_UP,
-    ARROW_DOWN,
-    TENTH_PLUS10,  // "+10", "-10"
-    TENTH_MINUS10
+    BTN_TYPE_TEXT_BLUE,  // "Any text"
+    BTN_TYPE_TEXT_GREEN,
+    BTN_TYPE_TEXT_RED,
+    BTN_TYPE_ARROW_LEFT,  // "Arrows"
+    BTN_TYPE_ARROW_RIGHT,
+    BTN_TYPE_ARROW_UP,
+    BTN_TYPE_ARROW_DOWN,
+    BTN_TYPE_TENTH_PLUS10,  // "+10", "-10"
+    BTN_TYPE_TENTH_MINUS10
 };
 
 class TFTButton : public TFTObject {
-    //using TFTObject::TFTObject;
+    // using TFTObject::TFTObject;
 
    private:
     BUTTON_TYPE type;
