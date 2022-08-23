@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-21
+    @updated: 2022-08-22
     @version: 1.0
     @description
         Generate Label for TFTScreen
@@ -25,7 +25,9 @@ class TFTLabel : public TFTObject {
     LABEL_TYPE type;
 
    public:
-    TFTLabel(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position, LABEL_TYPE type) : TFTObject(tftScreen, x, y, title, position) {
+    TFTLabel();
+    TFTLabel(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position, LABEL_TYPE type)
+        : TFTObject(tftScreen, x, y, title, position) {
         this->type = type;
     }
 

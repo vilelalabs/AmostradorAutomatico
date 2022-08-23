@@ -29,18 +29,24 @@ class TFTButton : public TFTObject {
     // using TFTObject::TFTObject;
 
    private:
+    void (*callback)();
     BUTTON_TYPE type;
 
     void drawPressed();
     void drawReleased();
 
    public:
-    TFTButton(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position, BUTTON_TYPE type) : TFTObject(tftScreen, x, y, title, position) {
+    TFTButton();
+    TFTButton(TFTScreen *tftScreen, int x, int y, const char *title,
+              TFTObjectPosition position, BUTTON_TYPE type, void (*callback)())
+        : TFTObject(tftScreen, x, y, title, position) {
+        this->callback = callback;
         this->type = type;
 
         // à princípio é necessário um caractere no "title" para que o botão seja renderizado corretamente quando for tipo"ARROW_XXX"
     }
-    void onPress(void (*callback)(void));
+    void setCallback(void (*callback)());
+    void onPress();
     void draw();
 
     ~TFTButton();

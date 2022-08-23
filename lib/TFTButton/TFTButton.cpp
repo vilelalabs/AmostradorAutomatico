@@ -79,6 +79,8 @@ void TFTButton::drawPressed() {
                     vertexX2 = this->getX() + this->getW() - 12;
                     vertexY2 = this->getY() + 12;
                     break;
+                default:
+                    break;
             }
             this->getTFTScreen()->getTFT().fillRect(this->getX(), this->getY(), this->getW(), this->getH(), BLACK);
             this->getTFTScreen()->getTFT().fillRect(this->getX(), this->getY(), this->getW(), this->getH(), GREY);
@@ -171,6 +173,9 @@ void TFTButton::drawReleased() {
                     vertexX2 = this->getX() + this->getW() - 10;
                     vertexY2 = this->getY() + 10;
                     break;
+                default:
+                    break;
+                
             }
             this->getTFTScreen()->getTFT().fillRect(this->getX(), this->getY(), this->getW(), this->getH(), WHITE);
             this->getTFTScreen()->getTFT().fillRect(this->getX() + 2, this->getY() + 2, this->getW() - 4, this->getH() - 4, bgColor);
@@ -196,9 +201,10 @@ void TFTButton::drawReleased() {
 
 // PUBLIC METHODS
 
-// constructor implemented on .H file
+// other constructors implemented on .H file
+TFTButton::TFTButton(){}
 
-void TFTButton::onPress(void (*callback)(void)) {
+void TFTButton::onPress() {
     unsigned long lastTime = millis();
     bool colorChanged = false;
 
@@ -212,10 +218,12 @@ void TFTButton::onPress(void (*callback)(void)) {
             }
         }
         drawReleased();
-        callback();
+        this->callback();
     }
 }
-
+void TFTButton::setCallback(void (*callback)()) {
+    this->callback = callback;
+    }
 void TFTButton::draw() {
     drawReleased();
 }

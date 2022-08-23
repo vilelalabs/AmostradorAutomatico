@@ -10,11 +10,12 @@
 
 #include <TFTLabel.h>
 
-void TFTLabel::draw(){
+TFTLabel::TFTLabel() {}
 
+void TFTLabel::draw() {
     unsigned short color = WHITE;
-    
-    switch(this->type){
+
+    switch (this->type) {
         case LBL_TYPE_TITLE:
             color = WHITE;
             break;

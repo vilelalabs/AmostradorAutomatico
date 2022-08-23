@@ -29,8 +29,11 @@ class TFTObject : public TFTScreen {
     TFTObjectPosition position;
 
    public:
+    TFTObject();
     TFTObject(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position);
     void draw();
+
+    TFTObject operator=(TFTObject tftObject);
 
     TFTScreen *getTFTScreen();
     int getX();
