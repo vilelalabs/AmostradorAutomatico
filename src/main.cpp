@@ -8,16 +8,25 @@ void setup() {
     Serial.begin(9600);
     tft.setup(DRIVER, ROTATION);
 
-    Serial.println((int)sizeof(uint8_t));
-    Serial.println((int)sizeof(uint16_t));
-    Serial.println((int)sizeof(unsigned short));
+    // changeScreen(TELA_TITULO);
+    // delay(5000);
+    // changeScreen(TELA_SELECAO_INICIAL);
+    //  delay(5000);
+    // changeScreen(TELA_CONFIGURACAO);
+    //  delay(5000);
+    // changeScreen(TELA_AGUARDANDO_TEMPERATURA);
+    // delay(5000);
+    // changeScreen(TELA_CONFIG_TEMPERATURA);
+    // delay(5000);
+    // changeScreen(TELA_CONFIG_CICLOS);
+    // delay(5000);
+    // changeScreen(TELA_INICIAR);
+    // delay(5000);
+    // changeScreen(TELA_SELECIONAR_CICLO);
+    // delay(5000);
+     changeScreen(TELA_EM_CICLO);
+    // delay(5000);
 
-    changeScreen(TELA_TITULO);
-    delay(1000);
-    changeScreen(TELA_SELECAO_INICIAL);
-    delay(1000);
-    //changeScreen(TELA_CONFIG_CICLOS);
-    //delay(1000);
 }
 
 void loop() {
@@ -28,7 +37,7 @@ void loop() {
 }
 
 void changeScreen(SCREEN_INDEX index) {
-    if(tela != nullptr) {
+    if (tela != nullptr) {
         delete tela;
         delay(100);
     }

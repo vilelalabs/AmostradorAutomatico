@@ -1,3 +1,6 @@
+/*
+updated: at least: 2022-08-24
+*/
 
 #include <Telas/Telas.h>
 
@@ -47,53 +50,107 @@ void TelaTitulo(TFTScreen *tft, Screen *tela) {
     tela->addLabel(0, TFTLabel(tft, 0, SCREEN_H / 4, "AMOSTRADOR", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
     tela->addLabel(1, TFTLabel(tft, 50, SCREEN_H / 2, "AUTOMATICO", OBJ_POS_CENTER, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
 
-    //"PHANTOM BUTTON*" (USED BEFORE Arduino mega solution)
+    //"PHANTOM BUTTON*" (maYBE WILL BE USED ONLY BEFORE Arduino Mega solution)
     tela->addButton(4, TFTButton(tft, SCREEN_W, SCREEN_H, " ", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_TEXT, []() {}));
 }
-
 void TelaSelecaoInicial(TFTScreen *tft, Screen *tela) {
-    // Example LABEL tela->addLabel(0, TFTLabel(tft, SCREEN_W / 2, 125, "22x", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-    // Example Button tela->addButton(0, TFTButton(tft, 0, 45, "A", OBJ_POS_RIGHT, BTN_TYPE_ARROW_UP, OBJ_SIZE_TEXT, []() { Serial.println("UP"); }));
-
     tela->addLabel(0, TFTLabel(tft, 0, 0, "AMOSTRADOR AUTOMATICO", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
     tela->addButton(0, TFTButton(tft, 0, SCREEN_H / 2 - 50, "CONFIGURACAO", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { Serial.println("CONFIGURACAO"); }));
     tela->addButton(1, TFTButton(tft, 0, SCREEN_H / 2 + 30, "INICIAR", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { Serial.println("INICIAR"); }));
 }
 void TelaConfiguracao(TFTScreen *tft, Screen *tela) {
+    tela->addLabel(0, TFTLabel(tft, 0, 0, "CONFIGURACAO", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+
+    tela->addButton(0, TFTButton(tft, 0, 0, " ", OBJ_POS_LEFT, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { Serial.println("BACK"); }));
+    tela->addButton(1, TFTButton(tft, 0, SCREEN_H / 2 - 50, "TEMPERATURA", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { Serial.println("TEMPERATURA"); }));
+    tela->addButton(2, TFTButton(tft, 0, SCREEN_H / 2 + 30, "T. CICLOS", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { Serial.println("T. CICLOS"); }));
 }
 void TelaAguardandoTemperatura(TFTScreen *tft, Screen *tela) {
+    // Title of Screen
+    tela->addLabel(0, TFTLabel(tft, 0, 0, "AGUARDANDO", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(1, TFTLabel(tft, 0, 30, "TEMPERATURA", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+
+    tela->addLabel(2, TFTLabel(tft, 90, 75, "ATUAL:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(3, TFTLabel(tft, 190, 75, "XXoC", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    tela->addLabel(4, TFTLabel(tft, 30, 115, "PROGRAMADA:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(5, TFTLabel(tft, 190, 115, "XXoC", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+
+    // removed due ARDUINO UNO memory limitation, put back with MEGA
+    tela->addButton(0, TFTButton(tft, 0, 170, "VOLTAR", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { Serial.println("VLT"); }));
 }
 void TelaConfigTemperatura(TFTScreen *tft, Screen *tela) {
+    // Title
+    tela->addLabel(0, TFTLabel(tft, 0, 0, "TEMPERATURA", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+
+    // Data
+    tela->addLabel(1, TFTLabel(tft, 60, 75, "ATUAL:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(2, TFTLabel(tft, 60, 120, "DESEJADA:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(4, TFTLabel(tft, SCREEN_W / 2 + 20, 75, "75oC", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    tela->addLabel(5, TFTLabel(tft, SCREEN_W / 2 + 20, 120, "85oC", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+
+    // Back to previous screen
+    tela->addButton(0, TFTButton(tft, 0, 0, " ", OBJ_POS_LEFT, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { Serial.println("BACK"); }));
+
+    // Navigation
+    tela->addButton(1, TFTButton(tft, 0, SCREEN_H - 50, "AAA", OBJ_POS_LEFT, BTN_TYPE_TENTH_MINUS10, OBJ_SIZE_TEXT, []() { Serial.println("-10"); }));
+    tela->addButton(2, TFTButton(tft, 100, SCREEN_H - 50, "Z", OBJ_POS_NONE, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { Serial.println("-1"); }));
+    tela->addButton(3, TFTButton(tft, SCREEN_W - 150, SCREEN_H - 50, "Z", OBJ_POS_NONE, BTN_TYPE_ARROW_RIGHT, OBJ_SIZE_TEXT, []() { Serial.println("+1"); }));
+    tela->addButton(4, TFTButton(tft, 0, SCREEN_H - 50, "AAA", OBJ_POS_RIGHT, BTN_TYPE_TENTH_PLUS10, OBJ_SIZE_TEXT, []() { Serial.println("+10"); }));
 }
 void TelaConfigCiclos(TFTScreen *tft, Screen *tela) {
     // Title
-    tela->addLabel(0, TFTLabel(tft, 0, 0, "Menu - Tal", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(0, TFTLabel(tft, 0, 0, "TEMPO - CICLOS", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
 
-    //
-    tela->addLabel(1, TFTLabel(tft, 60, 55, "ITEM 1:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-    tela->addLabel(2, TFTLabel(tft, 60, 90, "ITEM 2:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-    tela->addLabel(3, TFTLabel(tft, 60, 125, "ITEM 3:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-    tela->addLabel(4, TFTLabel(tft, SCREEN_W / 2, 55, "00x", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
-    tela->addLabel(5, TFTLabel(tft, SCREEN_W / 2, 90, "11x", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
-    tela->addLabel(6, TFTLabel(tft, SCREEN_W / 2, 125, "22x", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    // Data
+    tela->addLabel(1, TFTLabel(tft, 60, 55, "LIMPEZA:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(2, TFTLabel(tft, 60, 90, "INSERCAO:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(3, TFTLabel(tft, 60, 125, "COLETA:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(4, TFTLabel(tft, SCREEN_W / 2 + 20, 55, "15s", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    tela->addLabel(5, TFTLabel(tft, SCREEN_W / 2 + 20, 90, "13s", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    tela->addLabel(6, TFTLabel(tft, SCREEN_W / 2 + 20, 125, "19s", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+
+    // Back to previous screen
+    tela->addButton(0, TFTButton(tft, 0, 0, " ", OBJ_POS_LEFT, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { Serial.println("BACK"); }));
 
     // Options
+    tela->addButton(1, TFTButton(tft, 0, 60, "A", OBJ_POS_RIGHT, BTN_TYPE_ARROW_UP, OBJ_SIZE_TEXT, []() { Serial.println("UP"); }));
+    tela->addButton(2, TFTButton(tft, 0, 130, "A", OBJ_POS_RIGHT, BTN_TYPE_ARROW_DOWN, OBJ_SIZE_TEXT, []() { Serial.println("DOWN"); }));
 
-    tela->addButton(0, TFTButton(tft, 0, 45, "A", OBJ_POS_RIGHT, BTN_TYPE_ARROW_UP, OBJ_SIZE_TEXT, []() { Serial.println("UP"); }));
-    tela->addButton(1, TFTButton(tft, 0, 105, "A", OBJ_POS_RIGHT, BTN_TYPE_ARROW_DOWN, OBJ_SIZE_TEXT, []() { Serial.println("DOWN"); }));
-
-    // // Navigation
-    tela->addButton(2, TFTButton(tft, 0, SCREEN_H - 50, "AAA", OBJ_POS_LEFT, BTN_TYPE_TENTH_MINUS10, OBJ_SIZE_TEXT, []() { Serial.println("MINUS10"); }));
-    tela->addButton(3, TFTButton(tft, 100, SCREEN_H - 50, "ZZ", OBJ_POS_NONE, BTN_TYPE_TEXT_GREEN, OBJ_SIZE_TEXT, []() { Serial.println("ZZ"); }));
-    // tela->addButton(4, TFTButton(tft, SCREEN_W - 150, SCREEN_H - 50, "ZZ", OBJ_POS_NONE, BTN_TYPE_TEXT_RED,OBJ_SIZE_TEXT, []() {}));
-    // tela->addButton(5, TFTButton(tft, 220, SCREEN_H - 50, "AAA", OBJ_POS_RIGHT, BTN_TYPE_TENTH_PLUS10,OBJ_SIZE_TEXT, []() {}));
-
-    // Voltar para a tela inicial
-    // tela->addButton(6, TFTButton(tft, 0, 0, "TEXT", OBJ_POS_LEFT, BTN_TYPE_TEXT_GREEN, []() {}));
+    // Navigation
+    tela->addButton(3, TFTButton(tft, 0, SCREEN_H - 50, "AAA", OBJ_POS_LEFT, BTN_TYPE_TENTH_MINUS10, OBJ_SIZE_TEXT, []() { Serial.println("-10"); }));
+    tela->addButton(4, TFTButton(tft, 100, SCREEN_H - 50, "Z", OBJ_POS_NONE, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { Serial.println("-1"); }));
+    tela->addButton(5, TFTButton(tft, SCREEN_W - 150, SCREEN_H - 50, "Z", OBJ_POS_NONE, BTN_TYPE_ARROW_RIGHT, OBJ_SIZE_TEXT, []() { Serial.println("+1"); }));
+    tela->addButton(6, TFTButton(tft, 0, SCREEN_H - 50, "AAA", OBJ_POS_RIGHT, BTN_TYPE_TENTH_PLUS10, OBJ_SIZE_TEXT, []() { Serial.println("+10"); }));
 }
 void TelaIniciar(TFTScreen *tft, Screen *tela) {
+    tela->addLabel(0, TFTLabel(tft, 0, 0, "INICIAR", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+
+    tela->addButton(0, TFTButton(tft, 0, 0, " ", OBJ_POS_LEFT, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { Serial.println("BACK"); }));
+    tela->addButton(1, TFTButton(tft, 0, SCREEN_H / 2 - 50, "DO 1o CICLO", OBJ_POS_CENTER, BTN_TYPE_TEXT_GREEN, OBJ_SIZE_FIXED, []() { Serial.println("DO 1O CICLO"); }));
+    tela->addButton(2, TFTButton(tft, 0, SCREEN_H / 2 + 30, "SEL. CICLO", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { Serial.println("SEL CICLO"); }));
 }
 void TelaSelecionarCiclo(TFTScreen *tft, Screen *tela) {
+    tela->addLabel(0, TFTLabel(tft, 0, 0, "SELECIONAR CICLO", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(1, TFTLabel(tft, 0, 80, "XXoC", OBJ_POS_CENTER, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+
+    // Options
+    tela->addButton(0, TFTButton(tft, 27, 75, "A", OBJ_POS_NONE, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { Serial.println("UP"); }));
+    tela->addButton(1, TFTButton(tft, 250, 75, "A", OBJ_POS_NONE, BTN_TYPE_ARROW_RIGHT, OBJ_SIZE_TEXT, []() { Serial.println("DOWN"); }));
+
+    // removed due ARDUINO UNO memory limitation, put back with MEGA
+    tela->addButton(2, TFTButton(tft, 0, 170, "INICIAR", OBJ_POS_CENTER, BTN_TYPE_TEXT_GREEN, OBJ_SIZE_FIXED, []() { Serial.println("INICIAR"); }));
 }
 void TelaEmCiclo(TFTScreen *tft, Screen *tela) {
+    // Title
+    tela->addLabel(0, TFTLabel(tft, 60, 0, "STATUS:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(1, TFTLabel(tft, 153, 0, "EM COLETA", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    // Data
+    tela->addLabel(2, TFTLabel(tft, 24, 48, "CICLO:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(3, TFTLabel(tft, 24, 84, "TEMPERATURA:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(4, TFTLabel(tft, 24, 120, "TEMPO RESTANTE:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(5, TFTLabel(tft, 220, 48, "09", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    tela->addLabel(6, TFTLabel(tft, 220, 84, "85oC", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    // removed due ARDUINO UNO memory limitation, put back with MEGA
+    // tela->addLabel(7, TFTLabel(tft, 220, 120, "05s", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    // tela->addButton(0, TFTButton(tft, 0, 170, "PARAR", OBJ_POS_CENTER, BTN_TYPE_TEXT_RED, OBJ_SIZE_FIXED, []() { Serial.println("PARAR"); }));
 }

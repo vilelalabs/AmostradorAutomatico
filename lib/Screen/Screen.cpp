@@ -17,7 +17,7 @@ Screen Screen::operator=(Screen &screen) {
     }
 }
 
-void Screen::addLabel(unsigned short index, TFTLabel label) {
+void Screen::addLabel(uint8_t index, TFTLabel label) {
     if (index < MAX_LABELS) {
         this->labels[index] = label;
     } else {
@@ -25,7 +25,7 @@ void Screen::addLabel(unsigned short index, TFTLabel label) {
     }
 }
 
-void Screen::addButton(unsigned short index, TFTButton button) {
+void Screen::addButton(uint8_t index, TFTButton button) {
     if (index < MAX_BUTTONS) {
         this->buttons[index] = button;
     } else {
