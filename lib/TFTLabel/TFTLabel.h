@@ -22,12 +22,16 @@ class TFTLabel : public TFTObject {
     // using TFTObject::TFTObject;
 
    private:
+    bool isNull = true;
     LABEL_TYPE type;
 
    public:
+    TFTLabel();
     TFTLabel(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position, LABEL_TYPE type) : TFTObject(tftScreen, x, y, title, position) {
+        this->isNull = false;
         this->type = type;
     }
+    bool getIsNull();
 
     void draw();
 

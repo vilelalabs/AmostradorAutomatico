@@ -9,6 +9,8 @@
 
 #include <TFTObject.h>
 
+TFTObject::TFTObject() {}
+
 TFTObject::TFTObject(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position) {
     this->tftScreen = tftScreen;
     this->x = x;
@@ -45,6 +47,18 @@ TFTObject::TFTObject(TFTScreen *tftScreen, int x, int y, const char *title, TFTO
 
     this->w = rectWidth;
     this->h = rectHeight;
+}
+
+TFTObject TFTObject::operator=(TFTObject tftObject) {
+    this->tftScreen = tftObject.tftScreen;
+    this->x = tftObject.x;
+    this->y = tftObject.y;
+    this->title = tftObject.title;
+    this->position = tftObject.position;
+    this->padding = tftObject.padding;
+    this->w = tftObject.w;
+    this->h = tftObject.h;
+    return *this;
 }
 
 void TFTObject::draw() {

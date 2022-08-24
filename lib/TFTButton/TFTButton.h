@@ -13,6 +13,8 @@
 #include <TFTConfig.h>
 #include <TFTObject.h>
 
+#define BNT_FEEDBACK_TIME 300
+
 enum BUTTON_TYPE {
     BTN_TYPE_TEXT_BLUE,  // "Any text"
     BTN_TYPE_TEXT_GREEN,
@@ -29,18 +31,24 @@ class TFTButton : public TFTObject {
     // using TFTObject::TFTObject;
 
    private:
+    bool isNull = true;
     BUTTON_TYPE type;
+    void (*callback)();
 
     void drawPressed();
     void drawReleased();
 
    public:
-    TFTButton(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position, BUTTON_TYPE type) : TFTObject(tftScreen, x, y, title, position) {
+    TFTButton();
+    TFTButton(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position, BUTTON_TYPE type, void (*callback)()) : TFTObject(tftScreen, x, y, title, position) {
+        this->isNull = false;
         this->type = type;
-
+        this->callback = callback;
         // à princípio é necessário um caractere no "title" para que o botão seja renderizado corretamente quando for tipo"ARROW_XXX"
     }
-    void onPress(void (*callback)(void));
+    bool getIsNull();
+
+    void onPress();
     void draw();
 
     ~TFTButton();

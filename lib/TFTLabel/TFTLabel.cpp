@@ -10,8 +10,12 @@
 
 #include <TFTLabel.h>
 
-void TFTLabel::draw(){
+TFTLabel::TFTLabel(){}
 
+bool TFTLabel::getIsNull() {
+    return this->isNull;
+}
+    void TFTLabel::draw() {
     unsigned short color = WHITE;
     
     switch(this->type){
