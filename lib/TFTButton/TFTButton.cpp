@@ -40,7 +40,9 @@ void TFTButton::drawPressed() {
             this->getTFTScreen()->getTFT().fillRect(this->getX(), this->getY(), this->getW(), this->getH(), BLACK);
             this->getTFTScreen()->getTFT().fillRect(this->getX() + 2, this->getY() + 2, this->getW() - 4, this->getH() - 4, GREY);
             this->getTFTScreen()->getTFT().fillRect(this->getX() + 4, this->getY() + 4, this->getW() - 8, this->getH() - 8, bgPressed);
-            this->getTFTScreen()->showMsgXY(this->getX() + this->getPadding() / 2, this->getY() + this->getPadding() / 2, this->getTitle(), GREY);
+            this->getTFTScreen()->showMsgXY(this->getX() + (this->getW() / 2 - this->getTextWidth() / 2),
+                                            this->getY() + (this->getH() / 2 - this->getTextHeight() / 2),
+                                            this->getTitle(), GREY);
             break;
         case BTN_TYPE_ARROW_LEFT:
         case BTN_TYPE_ARROW_RIGHT:
@@ -134,7 +136,9 @@ void TFTButton::drawReleased() {
         case BTN_TYPE_TEXT_RED:
             this->getTFTScreen()->getTFT().fillRect(this->getX(), this->getY(), this->getW(), this->getH(), WHITE);
             this->getTFTScreen()->getTFT().fillRect(this->getX() + 2, this->getY() + 2, this->getW() - 4, this->getH() - 4, bgColor);
-            this->getTFTScreen()->showMsgXY(this->getX() + this->getPadding() / 2, this->getY() + this->getPadding() / 2, this->getTitle(), WHITE);
+            this->getTFTScreen()->showMsgXY(this->getX() + (this->getW() / 2 - this->getTextWidth() / 2),
+                                            this->getY() + (this->getH() / 2 - this->getTextHeight() / 2),
+                                            this->getTitle(), WHITE);
             break;
         case BTN_TYPE_ARROW_LEFT:
         case BTN_TYPE_ARROW_RIGHT:
@@ -201,7 +205,7 @@ void TFTButton::drawReleased() {
 // PUBLIC METHODS
 
 // otherconstructor implemented on .H file
-TFTButton::TFTButton(){}
+TFTButton::TFTButton() {}
 
 bool TFTButton::getIsNull() {
     return this->isNull;

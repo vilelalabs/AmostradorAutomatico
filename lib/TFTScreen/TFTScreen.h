@@ -16,7 +16,7 @@ class TFTScreen {
     Adafruit_TFTLCD tft;
     TouchScreen ts = TouchScreen(XP, YP, XM, YM, SENSIBILITY);
     int driver;
-    int rotation;
+    uint8_t rotation;
 
    protected:
     TSPoint getTouch();
@@ -24,8 +24,8 @@ class TFTScreen {
    public:
     TFTScreen();
     Adafruit_TFTLCD getTFT();
-    
-    void setup(int driver, int rotation);
+
+    void setup(int driver, uint8_t rotation);
     void showMsgXY(int x, int y, const char *msg, int color);
 
     ~TFTScreen();

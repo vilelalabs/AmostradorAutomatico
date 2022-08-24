@@ -16,7 +16,7 @@ bool TFTLabel::getIsNull() {
     return this->isNull;
 }
     void TFTLabel::draw() {
-    unsigned short color = WHITE;
+    unsigned short color = BLUE;
     
     switch(this->type){
         case LBL_TYPE_TITLE:

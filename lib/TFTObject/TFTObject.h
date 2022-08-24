@@ -13,28 +13,40 @@
 #include <TFTConfig.h>
 #include <TFTScreen.h>
 
-enum TFTObjectPosition {
-    TFTBP_NONE,
-    TFTBP_LEFT,
-    TFTBP_RIGHT,
-    TFTBP_CENTER
+#define FIXED_WIDTH (180)
+#define FIXED_HEIGHT (60)
+
+enum TFTObjectPosition : uint8_t {
+    OBJ_POS_NONE,
+    OBJ_POS_LEFT,
+    OBJ_POS_RIGHT,
+    OBJ_POS_CENTER
+};
+enum TFTObjectSize : uint8_t {
+    OBJ_SIZE_FIXED,
+    OBJ_SIZE_TEXT
 };
 
 class TFTObject : public TFTScreen {
    protected:
     TFTScreen *tftScreen;
-    unsigned short int x, y, w, h;
-    unsigned short int padding;
+    unsigned short x, y, w, h;
+
+    uint8_t padding;
     const char *title;
+    uint8_t textWidth;
+    uint8_t textHeight;
+
     TFTObjectPosition position;
+    TFTObjectSize objSize;
 
    public:
     TFTObject();
-    TFTObject(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position);
+    TFTObject(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position, TFTObjectSize ojbSize);
 
     TFTObject operator=(TFTObject tftObject);
 
-    void draw();
+    void draw(); // override
 
     TFTScreen *getTFTScreen();
 
@@ -42,8 +54,11 @@ class TFTObject : public TFTScreen {
     int getY();
     int getW();
     int getH();
-    int getPadding();   
+    uint8_t getPadding();
+    uint8_t getObjSize();
     const char *getTitle();
+    uint8_t getTextWidth();
+    uint8_t getTextHeight();
 
     ~TFTObject();
 };

@@ -16,7 +16,7 @@ TFTScreen::TFTScreen() {
 TFTScreen::~TFTScreen() {
 }
 
-void TFTScreen::setup(int driver, int rotation) {
+void TFTScreen::setup(int driver, uint8_t rotation) {
     this->tft.reset();
     this->tft.begin(driver);
     this->tft.setRotation(rotation);

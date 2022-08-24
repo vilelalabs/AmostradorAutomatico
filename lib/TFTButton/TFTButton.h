@@ -15,7 +15,7 @@
 
 #define BNT_FEEDBACK_TIME 300
 
-enum BUTTON_TYPE {
+enum BUTTON_TYPE : uint8_t {
     BTN_TYPE_TEXT_BLUE,  // "Any text"
     BTN_TYPE_TEXT_GREEN,
     BTN_TYPE_TEXT_RED,
@@ -40,7 +40,7 @@ class TFTButton : public TFTObject {
 
    public:
     TFTButton();
-    TFTButton(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position, BUTTON_TYPE type, void (*callback)()) : TFTObject(tftScreen, x, y, title, position) {
+    TFTButton(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position, BUTTON_TYPE type, TFTObjectSize objSize, void (*callback)()) : TFTObject(tftScreen, x, y, title, position, objSize) {
         this->isNull = false;
         this->type = type;
         this->callback = callback;

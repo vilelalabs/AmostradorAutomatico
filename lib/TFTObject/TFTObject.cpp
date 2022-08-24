@@ -11,42 +11,51 @@
 
 TFTObject::TFTObject() {}
 
-TFTObject::TFTObject(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position) {
+TFTObject::TFTObject(TFTScreen *tftScreen, int x, int y, const char *title, TFTObjectPosition position, TFTObjectSize objSize) {
     this->tftScreen = tftScreen;
     this->x = x;
     this->y = y;
     this->title = title;
     this->position = position;
+    this->objSize = objSize;
 
     this->padding = 30;
-    const unsigned short charWidth = 12;
-    const unsigned short charHeight = 20;
+    const uint8_t charWidth = 12;
+    const uint8_t charHeight = 20;
 
-    const unsigned short textLength = strlen(this->title);
-    const unsigned short textWidth = textLength * charWidth;
-    const unsigned short textHeight = charHeight;
-    const unsigned short rectWidth = textWidth + padding;
-    const unsigned short rectHeight = textHeight + padding;
+    const uint8_t textLength = strlen(this->title);
+    this->textWidth = textLength * charWidth;
+    this->textHeight = charHeight;
 
-    switch (position) {
-        case TFTBP_LEFT:
-            this->w = rectWidth;
-            this->x = 0;
+    const unsigned short rectWidth = this->textWidth + padding;
+    const unsigned short rectHeight = this->textHeight + padding;
+
+    switch (this->objSize) {
+        case OBJ_SIZE_FIXED:
+            this->w = FIXED_WIDTH;
+            this->h = FIXED_HEIGHT;
             break;
-        case TFTBP_RIGHT:
+        case OBJ_SIZE_TEXT:
             this->w = rectWidth;
-            this->x = SCREEN_W - this->w;
-            break;
-        case TFTBP_CENTER:
-            this->w = rectWidth;
-            this->x = (SCREEN_W - this->w) / 2;
+            this->h = rectHeight;
             break;
         default:
             break;
     }
 
-    this->w = rectWidth;
-    this->h = rectHeight;
+    switch (position) {
+        case OBJ_POS_LEFT:
+            this->x = 0;
+            break;
+        case OBJ_POS_RIGHT:
+            this->x = SCREEN_W - this->w;
+            break;
+        case OBJ_POS_CENTER:
+            this->x = (SCREEN_W - this->w) / 2;
+            break;
+        default:
+            break;
+    }
 }
 
 TFTObject TFTObject::operator=(TFTObject tftObject) {
@@ -54,16 +63,14 @@ TFTObject TFTObject::operator=(TFTObject tftObject) {
     this->x = tftObject.x;
     this->y = tftObject.y;
     this->title = tftObject.title;
+    this->textWidth = tftObject.textWidth;
+    this->textHeight = tftObject.textHeight;
     this->position = tftObject.position;
+    this->objSize = tftObject.objSize;
     this->padding = tftObject.padding;
     this->w = tftObject.w;
     this->h = tftObject.h;
     return *this;
-}
-
-void TFTObject::draw() {
-    this->tftScreen->getTFT().fillRect(this->x, this->y, this->w, this->h, BLUE);
-    this->tftScreen->showMsgXY(this->x + this->padding / 2, this->y + this->padding / 2, this->title, WHITE);
 }
 
 TFTScreen *TFTObject::getTFTScreen() {
@@ -82,11 +89,23 @@ int TFTObject::getW() {
 int TFTObject::getH() {
     return this->h;
 }
-int TFTObject::getPadding() {
+uint8_t TFTObject::getPadding() {
     return this->padding;
 }
+
+uint8_t TFTObject::getObjSize() {
+    return this->objSize;
+}
+
 const char *TFTObject::getTitle() {
     return this->title;
+}
+
+uint8_t TFTObject::getTextWidth() {
+    return textWidth;
+}
+uint8_t TFTObject::getTextHeight() {
+    return textHeight;
 }
 TFTObject::~TFTObject() {
 }

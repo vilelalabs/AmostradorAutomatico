@@ -8,11 +8,16 @@ void setup() {
     Serial.begin(9600);
     tft.setup(DRIVER, ROTATION);
 
-    changeScreen(TELA_ABERTURA);
+    Serial.println((int)sizeof(uint8_t));
+    Serial.println((int)sizeof(uint16_t));
+    Serial.println((int)sizeof(unsigned short));
+
+    changeScreen(TELA_TITULO);
     delay(1000);
-    changeScreen(TELA_CICLO);
+    changeScreen(TELA_SELECAO_INICIAL);
     delay(1000);
-    // changeScreen(TELA3);
+    //changeScreen(TELA_CONFIG_CICLOS);
+    //delay(1000);
 }
 
 void loop() {
