@@ -1,11 +1,4 @@
-#include <Arduino.h>
-#include <TFTButton.h>
-#include <TFTConfig.h>
-#include <TFTLabel.h>
-#include <TFTScreen.h>
-#include <Screen.h>
-
-#include <Telas/Telas.h>
+#include <main.h>
 
 unsigned long checkTime = millis();
 TFTScreen tft = TFTScreen();
@@ -15,18 +8,26 @@ void setup() {
     Serial.begin(9600);
     tft.setup(DRIVER, ROTATION);
 
-    tela = new Screen();
-    initTela(&tft, tela, TELA_ABERTURA);
-    delay(5000);
-    delete tela;
-    delay(200);
-    tela = new Screen();
-    initTela(&tft, tela, TELA_CICLO);
+    changeScreen(TELA_ABERTURA);
+    delay(1000);
+    changeScreen(TELA_CICLO);
+    delay(1000);
+    // changeScreen(TELA3);
 }
 
 void loop() {
-    if (millis() > checkTime + 100) {
+    if (millis() > checkTime + 250) {
         readButtonsTela(tela);
         checkTime = millis();
     }
+}
+
+void changeScreen(SCREEN_INDEX index) {
+    if(tela != nullptr) {
+        delete tela;
+        delay(100);
+    }
+
+    tela = new Screen();
+    initTela(&tft, tela, index);
 }
