@@ -5,6 +5,18 @@
 Screen::Screen() {
 }
 
+Screen Screen::operator=(Screen &screen) {
+    {
+        for (int i = 0; i < MAX_LABELS; i++) {
+            labels[i] = screen.labels[i];
+        }
+        for (int i = 0; i < MAX_BUTTONS; i++) {
+            buttons[i] = screen.buttons[i];
+        }
+        return *this;
+    }
+}
+
 void Screen::addLabel(unsigned short index, TFTLabel label) {
     if (index < MAX_LABELS) {
         this->labels[index] = label;

@@ -3,6 +3,16 @@
 
 #pragma once
 
-void initTelaAbertura(TFTScreen *tft, Screen *tela);
+enum SCREEN_INDEX {
+    TELA_ABERTURA,
+    TELA_CICLO,
+    //....
+};
 
-void readButtonsTelaAbertura(Screen *tela);
+void initTela(TFTScreen *tft, Screen *tela, SCREEN_INDEX index);
+
+void readButtonsTela(Screen *tela);
+
+// CRIAÇÃO DAS TELAS
+void TelaAbertura(TFTScreen *tft, Screen *tela);
+void TelaCiclo(TFTScreen *tft, Screen *tela);

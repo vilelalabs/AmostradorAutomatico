@@ -9,25 +9,24 @@
 
 unsigned long checkTime = millis();
 TFTScreen tft = TFTScreen();
-Screen *telaAbertura;
-Screen *telaMenu;
+Screen *tela;
 
 void setup() {
     Serial.begin(9600);
     tft.setup(DRIVER, ROTATION);
 
-    telaAbertura = new Screen();
-    initTelaAbertura(&tft, telaAbertura);
+    tela = new Screen();
+    initTela(&tft, tela, TELA_ABERTURA);
     delay(5000);
-    delete telaAbertura;
-    delay(5000);
-    telaMenu = new Screen();
-    initTelaAbertura(&tft, telaMenu);
+    delete tela;
+    delay(200);
+    tela = new Screen();
+    initTela(&tft, tela, TELA_CICLO);
 }
 
 void loop() {
     if (millis() > checkTime + 100) {
-        readButtonsTelaAbertura(telaAbertura);
+        readButtonsTela(tela);
         checkTime = millis();
     }
 }

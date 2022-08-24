@@ -12,10 +12,13 @@
 class Screen{
     private:
      TFTLabel labels[MAX_LABELS];
-
      TFTButton buttons[MAX_BUTTONS];
+
     public:
         Screen();
+
+        Screen operator=(Screen &screen);
+
         void addLabel(unsigned short index, TFTLabel label);
         void addButton(unsigned short index, TFTButton button);
         void draw();
