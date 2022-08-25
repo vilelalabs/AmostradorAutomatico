@@ -50,9 +50,8 @@ TSPoint TFTScreen::getTouch() {
 }
 
 void TFTScreen::showMsgXY(int x, int y, const char* msg, int color) {
-    const int sz = 2;
     this->tft.setCursor(x, y);
-    this->tft.setTextSize(sz);
+    this->tft.setTextSize(FONT_SIZE);
     this->tft.setTextColor(color);
     this->tft.println(msg);
 }

@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-22    
+    @updated: 2022-08-22
     @version: 1.0
     @description
         General configuration for using the TFT Touch Screen
@@ -11,9 +11,9 @@
 #pragma once
 
 // LIBS
-#include <Arduino.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_TFTLCD.h>
+#include <Arduino.h>
 #include <TouchScreen.h>
 
 // ARDUINO PINOUT FOR TFT
@@ -32,6 +32,9 @@
 #define BLACK 0x0000
 #define GREEN 0x05C0
 #define GREY 0xA630
+
+// FONT
+#define FONT_SIZE 2  // default: 2
 
 // TFT TOCHSCREEN  CALIBRATION
 
@@ -66,4 +69,3 @@
 #define SENSIBILITY 300
 
 //------------------------------------------------------------------------------
-
