@@ -48,7 +48,7 @@ class TFTButton : public TFTObject {
     }
     bool getIsNull();
 
-    void onPress();
+    bool onPress();
     void draw();
 
     ~TFTButton();

@@ -211,7 +211,7 @@ bool TFTButton::getIsNull() {
     return this->isNull;
 }
 
-void TFTButton::onPress() {
+bool TFTButton::onPress() {
     unsigned long lastTime = millis();
     bool colorChanged = false;
     TSPoint touch = this->getTouch();
@@ -225,7 +225,9 @@ void TFTButton::onPress() {
         }
         drawReleased();
         this->callback();
+        return true;
     }
+    return false;
 }
 
 void TFTButton::draw() {
