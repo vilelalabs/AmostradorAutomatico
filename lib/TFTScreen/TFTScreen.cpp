@@ -37,15 +37,21 @@ TSPoint TFTScreen::getTouch() {
         pinMode(YP, OUTPUT);
 
         // LANDSCAPE MODE
-        outp.x = map(p.y, TS_RT, TS_LEFT, 0, SCREEN_W);
-        outp.y = map(p.x, TS_BOT, TS_TOP, 0, SCREEN_H);
+         outp.x = map(p.y, TS_RT, TS_LEFT, 0, SCREEN_W);
+         outp.y = map(p.x, TS_BOT, TS_TOP, 0, SCREEN_H);
         // PORTRAIT MODE
-        // p.x = map(p.x, TS_LEFT, TS_RT, 0, SCREEN_W);
-        // p.y = map(p.y, TS_TOP, TS_BOT, 0, SCREEN_H);
+        // outp.x = map(p.x, TS_LEFT, TS_RT, 0, SCREEN_W);
+        // outp.y = map(p.y, TS_TOP, TS_BOT, 0, SCREEN_H);
 
     } else {
         outp.x = outp.y = outp.z = 0;
     }
+
+    // corrige erro na sensibilidade do touch
+    if(outp.z == 0) {
+        outp.x = outp.y = 0;
+    }
+
     return outp;
 }
 
