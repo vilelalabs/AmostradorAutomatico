@@ -4,7 +4,13 @@ updated: at least: 2022-08-24
 
 #include <Telas/Telas.h>
 
+TFTScreen tft = TFTScreen();
+Screen *tela = new Screen();
+
+// seleciona a tela a ser exibida e à qual será feita a leitura dos botões
 void initTela(TFTScreen *tft, Screen *tela, SCREEN_INDEX index) {
+    clearScreen();
+
     switch (index) {
         case TELA_TITULO:
             TelaTitulo(tft, tela);
@@ -37,12 +43,32 @@ void initTela(TFTScreen *tft, Screen *tela, SCREEN_INDEX index) {
         default:
             break;
     }
-    tft->getTFT().fillScreen(BLACK);
     tela->draw();
 }
 
 void readButtonsTela(Screen *tela) {
     tela->readButtons();
+}
+
+// RETORNO PARA TELA ANTERIOR
+auto changeScreen = [](SCREEN_INDEX index) {
+    if (tela != nullptr) {
+        delete tela;
+        delay(100);
+    }
+    tela = new Screen();
+    initTela(&tft, tela, index);
+};
+
+// LIMPA OBJETOS
+void clearScreen() {
+    for (int i = 0; i < MAX_LABELS; i++) {
+        tela->addLabel(i, TFTLabel(&tft, SCREEN_W + 50, SCREEN_H + 50, "", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    }
+    for (int i = 0; i < MAX_BUTTONS; i++) {
+        tela->addButton(i, TFTButton(&tft, SCREEN_W + 50, SCREEN_H + 50, "", OBJ_POS_NONE, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_TEXT, []() { return; }));
+    } 
+    (&tft)->getTFT().fillScreen(BLACK);
 }
 
 // CRIAÇÃO DAS TELAS
@@ -60,8 +86,7 @@ void TelaSelecaoInicial(TFTScreen *tft, Screen *tela) {
 }
 void TelaConfiguracao(TFTScreen *tft, Screen *tela) {
     tela->addLabel(0, TFTLabel(tft, 0, 0, "CONFIGURACAO", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-
-    tela->addButton(0, TFTButton(tft, 0, 0, " ", OBJ_POS_LEFT, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { Serial.println("BACK"); }));
+    tela->addButton(0, TFTButton(tft, 0, 0, "<", OBJ_POS_LEFT, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { changeScreen(TELA_SELECAO_INICIAL); }));
     tela->addButton(1, TFTButton(tft, 0, SCREEN_H / 2 - 50, "TEMPERATURA", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { Serial.println("TEMPERATURA"); }));
     tela->addButton(2, TFTButton(tft, 0, SCREEN_H / 2 + 30, "T. CICLOS", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { Serial.println("T. CICLOS"); }));
 }

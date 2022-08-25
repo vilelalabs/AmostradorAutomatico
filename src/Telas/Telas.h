@@ -1,7 +1,9 @@
+#pragma once
 
 #include <Screen.h>
 
-#pragma once
+extern TFTScreen tft;
+extern Screen *tela;
 
 enum SCREEN_INDEX {
     TELA_TITULO,
@@ -16,8 +18,8 @@ enum SCREEN_INDEX {
 };
 
 void initTela(TFTScreen *tft, Screen *tela, SCREEN_INDEX index);
-
 void readButtonsTela(Screen *tela);
+void clearScreen();
 
 // CRIAÇÃO DAS TELAS
 void TelaTitulo(TFTScreen *tft, Screen *tela);

@@ -3,8 +3,8 @@
 #include <TFTButton.h>
 #include <TFTLabel.h>
 
-#define MAX_LABELS 8
-#define MAX_BUTTONS 7
+#define MAX_LABELS 4    // default 8
+#define MAX_BUTTONS 4  // default 7
 
 #pragma once
 
@@ -22,4 +22,6 @@ class Screen {
     void addButton(uint8_t index, TFTButton button);
     void draw();
     void readButtons();
-};
+
+    ~Screen();
+    };

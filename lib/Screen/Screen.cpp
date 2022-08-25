@@ -2,6 +2,7 @@
 
 #include <Screen.h>
 
+// PUBLIC METHODS
 Screen::Screen() {
 }
 
@@ -48,7 +49,12 @@ void Screen::draw() {
 void Screen::readButtons() {
     for (int i = 0; i < MAX_BUTTONS; i++) {
         if (!this->buttons[i].getIsNull()) {
-            buttons[i].onPress();
+            if(buttons[i].onPress())
+                return;
         }
     }
+}
+
+Screen::~Screen() {
+    
 }
