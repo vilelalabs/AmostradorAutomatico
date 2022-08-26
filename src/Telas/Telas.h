@@ -20,7 +20,7 @@ enum SCREEN_INDEX {
 };
 
 void initTela(TFTScreen *tft, Screen *tela, SCREEN_INDEX index);
-void readButtonsTela(Screen *tela);
+int readButtonsTela(Screen *tela);
 void clearScreen();
 
 // CRIAÇÃO DAS TELAS
