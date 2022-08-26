@@ -10,9 +10,8 @@
 #include <TFTButton.h>
 #include <TFTLabel.h>
 
-#define MAX_LABELS 4   // default 8
-#define MAX_BUTTONS 4  // default 7
-
+#define MAX_LABELS 4   // default minimum 8  / 4 for tests using Arduino Uno
+#define MAX_BUTTONS 4  // default minimum 7  / 4 for tests using Arduino Uno
 
 #pragma once
 
@@ -20,16 +19,22 @@ class Screen {
    private:
     TFTLabel labels[MAX_LABELS];
     TFTButton buttons[MAX_BUTTONS];
+    TFTScreen *tft;
 
    public:
     Screen();
+    Screen(TFTScreen *tft);
 
     Screen operator=(Screen &screen);
 
     void addLabel(uint8_t index, TFTLabel label);
     void addButton(uint8_t index, TFTButton button);
+
+    void changeLabel(uint8_t index, char *text, void (*callback)(TFTScreen *tft, Screen *tela));
     void draw();
-    void readButtons();
+    int readButtons();
+
+    TFTLabel getLabel(uint8_t index);
 
     ~Screen();
-    };
+};

@@ -13,6 +13,10 @@
 Screen::Screen() {
 }
 
+Screen::Screen(TFTScreen *tft) {
+    this->tft = tft;
+}
+
 Screen Screen::operator=(Screen &screen) {
     {
         for (int i = 0; i < MAX_LABELS; i++) {
@@ -41,6 +45,22 @@ void Screen::addButton(uint8_t index, TFTButton button) {
     }
 }
 
+void Screen::changeLabel(uint8_t index, char *text, void (*callback)(TFTScreen *tft, Screen *tela)) {
+    if (index < MAX_LABELS) {
+        this->labels[index].setTitle(text);
+        callback(this->tft, this);
+        this->getLabel(index).draw();
+
+        /*
+            tela->addLabel(index, TFTLabel(&tft, SCREEN_W + 50, SCREEN_H + 50, text, OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    Tela2(&tft, tela);
+    tela->getLabel(1).draw();
+        */
+    } else {
+        Serial.println("Label Index out of bounds, Check MAX_LABELS and function changeLabel index argument.");
+    }
+}
+
 void Screen::draw() {
     for (int i = 0; i < MAX_LABELS; i++) {
         if (!this->labels[i].getIsNull()) {
@@ -53,17 +73,25 @@ void Screen::draw() {
         }
     }
 }
-void Screen::readButtons() {
+int Screen::readButtons() {
     for (int i = 0; i < MAX_BUTTONS; i++) {
         if (!this->buttons[i].getIsNull()) {
             if(buttons[i].onPress()){
-                Serial.println("Button " + (String)i +" Pressed"); 
-                return;
+                return i;
             }
         }
     }
+    return -1;
 }
 
-Screen::~Screen() {
-    
+TFTLabel Screen::getLabel(uint8_t index) {
+    if (index < MAX_LABELS) {
+        return this->labels[index];
+    } else {
+        Serial.println("Label Index out of bounds, Check MAX_LABELS and function getLabel index argument");
+    }
+
+    return TFTLabel();
 }
+
+Screen::~Screen() {}
