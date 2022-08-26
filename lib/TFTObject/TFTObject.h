@@ -13,7 +13,7 @@
 #include <TFTConfig.h>
 #include <TFTScreen.h>
 
-#define FIXED_WIDTH (180)
+#define FIXED_WIDTH (180) //default first: 180
 #define FIXED_HEIGHT (60)
 
 enum TFTObjectPosition : uint8_t {

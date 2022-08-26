@@ -1,10 +1,10 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-21
+    @updated at least in: 2022-08-25
     @version: 1.0
     @description
-        implements TFTObject class
+        Implements TFTObject Class
 */
 
 #include <TFTObject.h>

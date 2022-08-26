@@ -14,7 +14,9 @@ enum SCREEN_INDEX {
     TELA_CONFIG_CICLOS,
     TELA_INICIAR,
     TELA_SELECIONAR_CICLO,
-    TELA_EM_CICLO
+    TELA_EM_CICLO,
+
+    TELA_TESTE
 };
 
 void initTela(TFTScreen *tft, Screen *tela, SCREEN_INDEX index);
@@ -31,3 +33,5 @@ void TelaConfigCiclos(TFTScreen *tft, Screen *tela);
 void TelaIniciar(TFTScreen *tft, Screen *tela);
 void TelaSelecionarCiclo(TFTScreen *tft, Screen *tela);
 void TelaEmCiclo(TFTScreen *tft, Screen *tela);
+
+void TelaTeste(TFTScreen *tft, Screen *tela);

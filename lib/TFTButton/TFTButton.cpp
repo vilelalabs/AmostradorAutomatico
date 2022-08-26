@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-22
+    @updated: 2022-08-25
     @version: 1.0
     @description
         implements TFTButton class
@@ -215,6 +215,7 @@ bool TFTButton::onPress() {
     unsigned long lastTime = millis();
     bool colorChanged = false;
     TSPoint touch = this->getTouch();
+    
     if (touch.x > this->getX() && touch.x < this->getX() + this->getW() &&
         touch.y > this->getY() && touch.y < this->getY() + this->getH()) {
         while (millis() < lastTime + BNT_FEEDBACK_TIME) {

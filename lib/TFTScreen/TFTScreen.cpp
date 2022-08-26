@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-21
+    @updated: 2022-08-25
     @version: 1.0
     @description
         Implements TFT Touch Screen class

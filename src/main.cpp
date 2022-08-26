@@ -7,11 +7,10 @@ void setup() {
     tft.setup(DRIVER, ROTATION);
 
     initTela(&tft, tela, TELA_TITULO);
-    //initTela(&tft, tela, TELA_TITULO);
-    delay(3000);
-    // initTela(&tft, tela, TELA_SELECAO_INICIAL);
+    delay(1250);
+    initTela(&tft, tela, TELA_SELECAO_INICIAL);
     //   delay(5000);
-    initTela(&tft, tela, TELA_CONFIGURACAO);
+    // initTela(&tft, tela, TELA_CONFIGURACAO);
     //  delay(5000);
     // initTela(&tft, tela, TELA_AGUARDANDO_TEMPERATURA);
     // delay(5000);
@@ -25,6 +24,8 @@ void setup() {
     // delay(5000);
     // initTela(&tft, tela, TELA_EM_CICLO);
     // delay(5000);
+
+    //initTela(&tft, tela, TELA_TESTE);
 }
 
 void loop() {

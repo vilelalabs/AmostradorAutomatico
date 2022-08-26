@@ -1,10 +1,18 @@
-
+/*
+    @author: Henrique Vilela
+    @created: 2022-08-20
+    @updated at least in: 2022-08-25
+    @version: 1.0
+    @description
+        Declaration of Screen Class
+*/
 
 #include <TFTButton.h>
 #include <TFTLabel.h>
 
-#define MAX_LABELS 4    // default 8
+#define MAX_LABELS 4   // default 8
 #define MAX_BUTTONS 4  // default 7
+
 
 #pragma once
 
