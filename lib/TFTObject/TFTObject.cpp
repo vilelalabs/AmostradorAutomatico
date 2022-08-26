@@ -101,7 +101,11 @@ const char *TFTObject::getTitle() {
     return this->title;
 }
 
-uint8_t TFTObject::getTextWidth() {
+void TFTObject::setTitle(const char *title){
+    this->title = title;
+}
+
+    uint8_t TFTObject::getTextWidth() {
     return textWidth;
 }
 uint8_t TFTObject::getTextHeight() {

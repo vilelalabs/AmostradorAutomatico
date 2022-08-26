@@ -56,7 +56,10 @@ class TFTObject : public TFTScreen {
     int getH();
     uint8_t getPadding();
     uint8_t getObjSize();
+
     const char *getTitle();
+    void setTitle(const char *title);
+    
     uint8_t getTextWidth();
     uint8_t getTextHeight();
 
