@@ -13,7 +13,7 @@
 
 class TFTScreen {
    private:
-    Adafruit_TFTLCD tft;
+    MCUFRIEND_kbv tft;
     TouchScreen ts = TouchScreen(XP, YP, XM, YM, SENSIBILITY);
     int driver;
     uint8_t rotation;
@@ -23,7 +23,7 @@ class TFTScreen {
 
    public:
     TFTScreen();
-    Adafruit_TFTLCD getTFT();
+    MCUFRIEND_kbv getTFT();
 
     void setup(int driver, uint8_t rotation);
     void showMsgXY(int x, int y, const char *msg, int color);
