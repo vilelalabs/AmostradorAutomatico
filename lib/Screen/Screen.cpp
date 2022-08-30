@@ -45,10 +45,9 @@ void Screen::addButton(uint8_t index, TFTButton button) {
     }
 }
 
-void Screen::changeLabel(uint8_t index, char *text, void (*callback)(TFTScreen *tft, Screen *tela)) {
+void Screen::changeLabel(uint8_t index, char *text) {
     if (index < MAX_LABELS) {
         this->labels[index].setTitle(text);
-        callback(this->tft, this);
         this->getLabel(index).draw();
 
     } else {
