@@ -51,11 +51,6 @@ void Screen::changeLabel(uint8_t index, char *text, void (*callback)(TFTScreen *
         callback(this->tft, this);
         this->getLabel(index).draw();
 
-        /*
-            tela->addLabel(index, TFTLabel(&tft, SCREEN_W + 50, SCREEN_H + 50, text, OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-    Tela2(&tft, tela);
-    tela->getLabel(1).draw();
-        */
     } else {
         Serial.println("Label Index out of bounds, Check MAX_LABELS and function changeLabel index argument.");
     }
