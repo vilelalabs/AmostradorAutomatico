@@ -7,7 +7,7 @@ updated: at least: 2022-08-24
 TFTScreen tft = TFTScreen();
 Screen *tela = new Screen(&tft);
 
-//Variable Labels
+// Variable Labels
 char botao0Tela2[20];
 
 // seleciona a tela a ser exibida e à qual será feita a leitura dos botões
@@ -52,7 +52,7 @@ auto changeScreen = [](SCREEN_INDEX index) {
 
 // LIMPA OBJETOS
 void clearVariableLabels() {
-    botao0Tela2[0] = '\0';
+    botao0Tela2[0] = '    ';
 }
 void clearScreen() {
     clearVariableLabels();
@@ -65,14 +65,12 @@ void clearScreen() {
     (&tft)->getTFT().fillScreen(BLACK);
 }
 
-
 // FUNÇÕES DE EXECUÇÃO
 void execucaoTela1() {
     Serial.println("Executando Tela 1");
 }
 
 void execucaoTela2() {
-    
     // assures tha button will be pressed only once
     static bool buttonPressed = false;
     if (!buttonPressed) {
@@ -83,7 +81,8 @@ void execucaoTela2() {
         do {
             if (millis() > updateTemp + 500) {
                 itoa(i, botao0Tela2, 10);
-                tela->changeLabel(1, botao0Tela2, Tela2);
+               tela->changeLabel(1, botao0Tela2);
+               
                 updateTemp = millis();
                 i++;
             }
@@ -158,18 +157,45 @@ void Tela3(TFTScreen *tft, Screen *tela) {
             break;
         }
 
-        if (millis() > timerScreenCount + 5000) {
+        if (millis() > timerScreenCount + 3000) {
             Tela4(tft, tela);
             break;
         }
     }
 }
 
+
+
+
+bool stopScreen4 = false;
+static bool screen4on = false;
 void Tela4(TFTScreen *tft, Screen *tela) {
+    screen4on = true;
     Serial.println("Tela 4");
     tela->addLabel(0, TFTLabel(tft, 0, 0, "TELA 4", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-    tela->addLabel(1, TFTLabel(tft, 0, SCREEN_H / 3, "CLIQUE ABAIXO", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(1, TFTLabel(tft, 0, SCREEN_H / 3 - 15, "CLIQUE ABAIXO", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
 
     tela->addButton(0, TFTButton(tft, 0, 0, " ", OBJ_POS_LEFT, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { changeScreen(TELA_3); }));
     tela->addButton(1, TFTButton(tft, SCREEN_W, SCREEN_H / 2, "BOTAO", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { execucaoTela4(); }));
+    tela->draw();
+    if (screen4on) {
+        unsigned long updateLabel = millis();
+        char text[10];
+        int num = 15;
+        while (1) {
+            if (millis() > updateLabel + 1000) {
+                itoa(--num, text, 10);
+                tela->changeLabel(1, text);
+                updateLabel = millis();
+            }
+
+            if (readButtonsTela(tela) == 0) {
+                stopScreen4 = true;
+            }
+            if (stopScreen4) {
+                stopScreen4 = false;
+                break;
+            }
+        }
+    }
 }

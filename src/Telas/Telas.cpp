@@ -63,9 +63,24 @@ auto changeScreen = [](SCREEN_INDEX index) {
     initTela(&tft, tela, index);
 };
 
+// VARIÁVEIS GLOBAIS PARA INTERAÇÕES COM A TELA E PROCESSOS DE TIMER (EX: MILLIS)
+//----Labels Varáveis (LV)----
+//-- LV - TelaEmCiclo --
+static bool executandoTelaEmCiclo = false;
+char statusTelaEmCiclo[12]      = "           ";
+char cicloTelaEmCiclo[5]        = "    ";
+char temperaturaTelaEmCiclo[5]  = "    ";
+char tempoTelaEmCiclo[5]        = "    ";
+
+// FUNÇÕES DE EXECUÇÃO INDIVIDUAIS DOS BOTÕES
+
 // LIMPA OBJETOS
 void clearVariableLabels() {
     // insert all variable Labels here
+    statusTelaEmCiclo[0] = ' ';
+    cicloTelaEmCiclo[0] = ' ';
+    temperaturaTelaEmCiclo[0] = ' ';
+    tempoTelaEmCiclo[0] = ' ';
 }
 void clearScreen() {
     clearVariableLabels();
@@ -77,11 +92,6 @@ void clearScreen() {
     }
     (&tft)->getTFT().fillScreen(BLACK);
 }
-
-// FUNÇÕES DE EXECUÇÃO INDIVIDUAIS DOS BOTÕES
-
-// VARIÁVEIS GLOBAIS PARA INTERAÇÕES COM A TELA E PROCESSOS DE TIMER (EX: MILLIS)
-
 
 // CRIAÇÃO DAS TELAS
 void TelaTitulo(TFTScreen *tft, Screen *tela) {
@@ -185,19 +195,52 @@ void TelaSelecionarCiclo(TFTScreen *tft, Screen *tela) {
                         // Fica circulando entre os ciclos até que seja clicado em PARAR
                     }));
 }
+
+bool stoptelaEmCicloActive = false;
+static bool telaEmCicloActive = false;
 void TelaEmCiclo(TFTScreen *tft, Screen *tela) {
+    telaEmCicloActive = true;
     // Title
-    tela->addLabel(0, TFTLabel(tft, 60, 0, "STATUS:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-    tela->addLabel(1, TFTLabel(tft, 153, 0, "EM COLETA", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+     tela->addLabel(0, TFTLabel(tft, 24, 0, "STATUS:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
+    tela->addLabel(1, TFTLabel(tft, 153, 0, statusTelaEmCiclo, OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
     // Data
     tela->addLabel(2, TFTLabel(tft, 24, 48, "CICLO:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
     tela->addLabel(3, TFTLabel(tft, 24, 84, "TEMPERATURA:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
     tela->addLabel(4, TFTLabel(tft, 24, 120, "TEMPO RESTANTE:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-    tela->addLabel(5, TFTLabel(tft, 220, 48, "09", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
-    tela->addLabel(6, TFTLabel(tft, 220, 84, "85oC", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
-    // removed due ARDUINO UNO memory limitation, put back with MEGA
-    tela->addLabel(7, TFTLabel(tft, 220, 120, "05s", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    tela->addLabel(5, TFTLabel(tft, 220, 48, cicloTelaEmCiclo, OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    tela->addLabel(6, TFTLabel(tft, 220, 84, temperaturaTelaEmCiclo, OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    //removed due ARDUINO UNO memory limitation, put back with MEGA
+    tela->addLabel(7, TFTLabel(tft, 220, 120, tempoTelaEmCiclo, OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
     tela->addButton(0, TFTButton(tft, 0, 170, "PARAR", OBJ_POS_CENTER, BTN_TYPE_TEXT_RED, OBJ_SIZE_FIXED, []() { changeScreen(TELA_INICIAR); }));
+    tela->draw();
+
+    if (telaEmCicloActive) {
+        unsigned long updateLabel = millis();
+        long num = -100;
+        while (1) {
+            if (millis() > updateLabel + 250) {
+                num%2 == 0 ? strcpy(statusTelaEmCiclo, "COLETANDO  ") : strcpy(statusTelaEmCiclo, "INS. PADRAO");
+                itoa(num, cicloTelaEmCiclo, 10);
+                itoa(num, temperaturaTelaEmCiclo, 10);
+                itoa(num, tempoTelaEmCiclo, 10);
+                tela->changeLabel(1, statusTelaEmCiclo);
+                tela->changeLabel(5, cicloTelaEmCiclo);
+                tela->changeLabel(6, temperaturaTelaEmCiclo);
+                tela->changeLabel(7, tempoTelaEmCiclo);
+
+                updateLabel = millis();
+                num++;
+            }
+
+            if (readButtonsTela(tela) == 0) {
+                stoptelaEmCicloActive = true;
+            }
+            if (stoptelaEmCicloActive) {
+                stoptelaEmCicloActive = false;
+                break;
+            }
+        }
+    }
 }
 
 void TelaTeste(TFTScreen *tft, Screen *tela) {
