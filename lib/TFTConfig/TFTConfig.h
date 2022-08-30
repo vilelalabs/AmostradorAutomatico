@@ -11,9 +11,8 @@
 #pragma once
 
 // LIBS
-#include <Adafruit_GFX.h>
-#include <Adafruit_TFTLCD.h>
 #include <Arduino.h>
+#include <MCUFRIEND_kbv.h>
 #include <TouchScreen.h>
 
 // ARDUINO PINOUT FOR TFT
