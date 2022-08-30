@@ -30,8 +30,23 @@ long EEPROMReadLong(int address) {
     return ((pos4 << 0) & 0xFF) + ((pos3 << 8) & 0xFFFF) + ((pos2 << 16) & 0xFFFFFF) + ((pos1 << 24) & 0xFFFFFFFF);
 }
 
+void EEPROMWriteFloat(int address, float value) {
+    byte* p = (byte*)(void*)&value;
+    for (int i = 0; i < sizeof(value); i++)
+        EEPROM.write(address++, *p++);
+}
+
+float EEPROMReadFloat(int address) {
+    float output;
+    byte* p = (byte*)(void*)&output;
+    for (int i = 0; i < sizeof(output); i++)
+        *p++ = EEPROM.read(address++);
+    return output;
+}
+
+
 void EEPROMWriteStr(int address, String value) {
-    int addressPosition;
+    unsigned addressPosition;
 
     for (addressPosition = 0; addressPosition < value.length(); addressPosition++) {
         EEPROM.write(address + addressPosition, value.charAt(addressPosition));
@@ -47,10 +62,10 @@ void EEPROMWriteStr(int address, String value) {
 }
 
 void EEPROMConcatStr(int address, String value) {
-    int addressPosition;
+    unsigned addressPosition;
     char readByte;
     bool nullFound = false;
-    int strPos = 0;
+    unsigned strPos = 0;
 
     for (addressPosition = 0; addressPosition < MAX_EEPROM_SPACE; addressPosition++) {
         if (!nullFound) {
@@ -96,10 +111,10 @@ void EEPROMEraseAll() {
 
 //----------------------------------------------
 void checkFirstRun(){
-    if (EEPROMReadInt(50) != FIRST_RUN_CODE) {
+    if (EEPROMReadInt(FIRST_RUN_EEPROM_ADDRESS) != FIRST_RUN_CODE) {
         Serial.println("Detected first run, initializing EEPROM");
         EEPROMEraseAll();
-        EEPROMWriteInt(50, FIRST_RUN_CODE);
+        EEPROMWriteInt(FIRST_RUN_EEPROM_ADDRESS, FIRST_RUN_CODE);
         Serial.println("Done! Continuing startup...");
     }
 }
