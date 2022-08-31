@@ -42,15 +42,15 @@ TSPoint TFTScreen::getTouch() {
         // PORTRAIT MODE
         // outp.x = map(p.x, TS_LEFT, TS_RT, 0, SCREEN_W);
         // outp.y = map(p.y, TS_TOP, TS_BOT, 0, SCREEN_H);
-        
-        //DEBUGAR POSIÇÃO DO TOQUE NA TELA
-        // if(outp.z > 0) {
-        //     Serial.print("X = ");
-        //     Serial.print(outp.x);
-        //     Serial.print("\tY = ");
-        //     Serial.print(outp.y);
-        //     Serial.println();
-        // }
+
+        // DEBUGAR POSIÇÃO DO TOQUE NA TELA
+        //  if(outp.z > 0) {
+        //      Serial.print("X = ");
+        //      Serial.print(outp.x);
+        //      Serial.print("\tY = ");
+        //      Serial.print(outp.y);
+        //      Serial.println();
+        //  }
         //--------------------------------
 
     } else {
@@ -70,4 +70,15 @@ void TFTScreen::showMsgXY(int x, int y, const char* msg, int color) {
     this->tft.setTextSize(FONT_SIZE);
     this->tft.setTextColor(color);
     this->tft.println(msg);
+}
+
+void TFTScreen::drawPointer(int x, int y) {
+    y = y + 15;
+    unsigned short vertexX0 = x + 15 ;
+    unsigned short vertexY0 = y + 15 / 2;
+    unsigned short vertexX1 = x ;
+    unsigned short vertexY1 = y ;
+    unsigned short vertexX2 = x ;
+    unsigned short vertexY2 = y + 15 ;
+    this->tft.fillTriangle(vertexX0, vertexY0, vertexX1, vertexY1, vertexX2, vertexY2, TFT_ORANGE);
 }

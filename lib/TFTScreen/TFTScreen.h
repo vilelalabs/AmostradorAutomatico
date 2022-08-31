@@ -28,5 +28,7 @@ class TFTScreen {
     void setup(int driver, uint8_t rotation);
     void showMsgXY(int x, int y, const char *msg, int color);
 
+    void  drawPointer(int x, int y);
+
     ~TFTScreen();
 };
