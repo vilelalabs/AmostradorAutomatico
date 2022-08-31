@@ -8,6 +8,8 @@ void setupTemperatureSensor() {
     dht.begin();
 }
 
+
+//auxiliar functions ==========================================================
 void reverse(char* str, int len) {
     int i = 0, j = len - 1, temp;
     while (i < j) {
@@ -18,7 +20,6 @@ void reverse(char* str, int len) {
         j--;
     }
 }
-
 int intToStr(int x, char str[], int d) {
     int i = 0;
     while (x) {
@@ -57,6 +58,8 @@ void ftoa(float n, char* res, int afterpoint) {
         intToStr((int)fpart, res + i + 1, afterpoint);
     }
 }
+
+//=============================================================================
 
 float getTemperature() {
     //int tempValue = analogRead(TEMPERATURE_SENSOR_PIN);
