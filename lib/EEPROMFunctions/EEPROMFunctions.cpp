@@ -32,14 +32,14 @@ long EEPROMReadLong(int address) {
 
 void EEPROMWriteFloat(int address, float value) {
     byte* p = (byte*)(void*)&value;
-    for (int i = 0; i < sizeof(value); i++)
+    for (unsigned i = 0; i < sizeof(value); i++)
         EEPROM.write(address++, *p++);
 }
 
 float EEPROMReadFloat(int address) {
     float output;
     byte* p = (byte*)(void*)&output;
-    for (int i = 0; i < sizeof(output); i++)
+    for (unsigned i = 0; i < sizeof(output); i++)    
         *p++ = EEPROM.read(address++);
     return output;
 }
@@ -115,6 +115,14 @@ void checkFirstRun(){
         Serial.println("Detected first run, initializing EEPROM");
         EEPROMEraseAll();
         EEPROMWriteInt(FIRST_RUN_EEPROM_ADDRESS, FIRST_RUN_CODE);
+
+        // Set default values
+        EEPROMWriteInt(CICLO_INICIAL_EEPROM_ADDRESS, 1);
+        EEPROMWriteInt(CICLO_LIMPEZA_EEPROM_ADDRESS, 5);
+        EEPROMWriteInt(CICLO_INSERCAO_EEPROM_ADDRESS, 5);
+        EEPROMWriteInt(CICLO_COLETA_EEPROM_ADDRESS, 5);
+        EEPROMWriteFloat(TEMPERATURA_EEPROM_ADDRESS, 50.0);
+
         Serial.println("Done! Continuing startup...");
     }
 }
