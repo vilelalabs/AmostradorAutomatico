@@ -3,6 +3,7 @@ updated: at least: 2022-08-24
 */
 
 #include <EEPROMFunctions.h>
+#include <Logic.h>
 #include <Telas/Telas.h>
 #include <TemperatureSensor.h>
 
@@ -40,9 +41,6 @@ void initTela(TFTScreen *tft, Screen *tela, SCREEN_INDEX index) {
             break;
         case TELA_EM_CICLO:
             TelaEmCiclo(tft, tela);
-            break;
-        case TELA_TESTE:
-            TelaTeste(tft, tela);
             break;
 
         default:
@@ -83,6 +81,7 @@ char statusTelaEmCiclo[15] = "              ";
 char cicloTelaEmCiclo[5] = "    ";
 char temperaturaTelaEmCiclo[10] = "         ";
 char tempoTelaEmCiclo[5] = "    ";
+char buttonTelaEmCiclo[12] = "           ";
 
 // FUNÇÕES DE EXECUÇÃO INDIVIDUAIS DOS BOTÕES
 
@@ -146,6 +145,7 @@ void TelaAguardandoTemperatura(TFTScreen *tft, Screen *tela) {
         telaAguardandoTemperaturaActive = false;
         unsigned long updateLabel = millis();
         float temperaturaProgramada = EEPROMReadFloat(TEMPERATURA_EEPROM_ADDRESS);
+        
         float temperaturaAtual = getTemperature();
         while (1) {
             if (millis() > updateLabel + 1000) {
@@ -163,8 +163,8 @@ void TelaAguardandoTemperatura(TFTScreen *tft, Screen *tela) {
             }
 
             if (temperaturaAtual == temperaturaProgramada) {  // comparação correta ">=", == apenas para testes
-                tela->changeLabel(0, "TEMPERATURA");
-                tela->changeLabel(1, "  CORRETA!");
+                tela->changeLabel(0, (char *)"TEMPERATURA");
+                tela->changeLabel(1, (char *)"  CORRETA! ");
                 delay(2000);
                 changeScreen(TELA_INICIAR);
                 stopTelaAguardandoTemperatura = true;
@@ -494,6 +494,7 @@ bool stopTelaEmCiclo = false;
 static bool telaEmCicloActive = false;
 void TelaEmCiclo(TFTScreen *tft, Screen *tela) {
     telaEmCicloActive = true;
+    bool stoppingAsked = false;
     // Title
     tela->addLabel(0, TFTLabel(tft, 24, 0, "STATUS:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
     tela->addLabel(1, TFTLabel(tft, 153, 0, "           ", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
@@ -504,7 +505,7 @@ void TelaEmCiclo(TFTScreen *tft, Screen *tela) {
     tela->addLabel(5, TFTLabel(tft, 220, 48, "    ", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
     tela->addLabel(6, TFTLabel(tft, 220, 84, "    ", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
     tela->addLabel(7, TFTLabel(tft, 220, 120, "    ", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
-    tela->addButton(0, TFTButton(tft, 0, 170, "PARAR", OBJ_POS_CENTER, BTN_TYPE_TEXT_RED, OBJ_SIZE_FIXED, []() { changeScreen(TELA_INICIAR); }));
+    tela->addButton(0, TFTButton(tft, 0, 170, "  PARAR   ", OBJ_POS_CENTER, BTN_TYPE_TEXT_RED, OBJ_SIZE_FIXED, []() {}));
     tela->draw();
 
     // ATIVIDADE DA TELA "EM CICLO"
@@ -513,49 +514,83 @@ void TelaEmCiclo(TFTScreen *tft, Screen *tela) {
         unsigned long updateLabel = millis();
 
         // variaveis usadas na tela
-        char status[15];
+        char status[15] = "LIMPEZA";
         int ciclo = EEPROMReadInt(CICLO_INICIAL_EEPROM_ADDRESS);
-        int temperatura = getTemperature();
+        float temperatura = getTemperature();
         int tempoRestante = EEPROMReadInt(CICLO_LIMPEZA_EEPROM_ADDRESS);
+        Tarefa tarefa = TAREFA_LIMPEZA;
+        // inicia primeiro ciclo solicitado
+        delay(2000);
+        executaCiclo(ciclo, tarefa);
 
         while (1) {
-            if (millis() > updateLabel + 250) {
+            if (millis() > updateLabel + 1000) {
+                updateLabel = millis();
                 // conversoes das variaveis para string
+
                 strcpy(statusTelaEmCiclo, status);
                 itoa(ciclo, cicloTelaEmCiclo, 10);
                 dtostrf(temperatura, 2, 2, temperaturaTelaEmCiclo);
-                itoa(tempoRestante, tempoTelaEmCiclo, 10);
+                itoa(tempoRestante - 1, tempoTelaEmCiclo, 10);
+                stoppingAsked ? strcpy(buttonTelaEmCiclo, "PARANDO...") : strcpy(buttonTelaEmCiclo, "  PARAR   ");
+
                 // altera os labels
                 tela->changeLabel(1, statusTelaEmCiclo);
                 tela->changeLabel(5, cicloTelaEmCiclo);
                 tela->changeLabel(6, temperaturaTelaEmCiclo);
                 tela->changeLabel(7, tempoTelaEmCiclo);
+                tela->changeButton(0, buttonTelaEmCiclo);
 
-                updateLabel = millis();
+                // update variables
+                tempoRestante > 0 ? tempoRestante-- : 0;
+                temperatura = getTemperature();
             }
+            if (tempoRestante == 0) {
+                if (tarefa == TAREFA_COLETA) {
+                    ciclo < 10 ? ciclo++ : ciclo = 1;
+                }
+                switch (tarefa) {
+                    case TAREFA_LIMPEZA:
+                        strcpy(status, "INS.PADRAO");
+                        tempoRestante = EEPROMReadInt(CICLO_INSERCAO_EEPROM_ADDRESS);
+                        executaCiclo(ciclo, TAREFA_INSERCAO);
+                        tarefa = TAREFA_INSERCAO;
+                        break;
+                    case TAREFA_INSERCAO:
+                        strcpy(status, "EM COLETA");
+                        tempoRestante = EEPROMReadInt(CICLO_COLETA_EEPROM_ADDRESS);
+                        executaCiclo(ciclo, TAREFA_COLETA);
 
-            switch (readButtonsTela(tela)) {
-                case 0:  // PARAR
-                //ações para interrupção do ciclo apenas ao final do ciclo de coleta
-                
-                    stopTelaEmCiclo = true;
-                    break;
-                default:
-                    break;
+                        tarefa = TAREFA_COLETA;
+                        break;
+                    case TAREFA_COLETA:
+                        if (!stoppingAsked) {
+                            strcpy(status, "LIMPEZA");
+                            tempoRestante = EEPROMReadInt(CICLO_LIMPEZA_EEPROM_ADDRESS);
+                            executaCiclo(ciclo, TAREFA_LIMPEZA);
+                            tarefa = TAREFA_LIMPEZA;
+                            break;
+                        } else {
+                            stopTelaEmCiclo = true;
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            }
+            if (!stoppingAsked) {
+                if (readButtonsTela(tela) == 0) {  // BOTAO PARAR
+                    stoppingAsked = true;
+                }
             }
 
             if (stopTelaEmCiclo) {
+                resetValvulas();
+                stoppingAsked = false;
                 stopTelaEmCiclo = false;
+                changeScreen(TELA_INICIAR);
                 break;
             }
         }
     }
-}
-
-void TelaTeste(TFTScreen *tft, Screen *tela) {
-    // tela->addLabel(0, TFTLabel(tft, 0, 0, "TESTE", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-    // tela->addLabel(1, TFTLabel(tft, 0, 110, "XXoC", OBJ_POS_CENTER, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
-
-    // Options
-    tela->addButton(0, TFTButton(tft, SCREEN_W / 2, 175, "PARAR", OBJ_POS_CENTER, BTN_TYPE_TEXT_RED, OBJ_SIZE_FIXED, []() { /*changeScreen(TELA_INICIAR);*/ }));
 }

@@ -16,6 +16,9 @@ void setup() {
     // inicializa o sensor de temperatura
     setupTemperatureSensor();
 
+    //inicializa válvulas
+    setupValvulas();
+
     // initTela(&tft, tela, TELA_TITULO);
     // delay(4000);
     // initTela(&tft, tela, TELA_SELECAO_INICIAL);
@@ -28,14 +31,12 @@ void setup() {
     // delay(5000);
     // initTela(&tft, tela, TELA_CONFIG_CICLOS);
     // delay(5000);
-    // initTela(&tft, tela, TELA_INICIAR);
+     initTela(&tft, tela, TELA_INICIAR);
     // delay(5000);
-     initTela(&tft, tela, TELA_SELECIONAR_CICLO);
+    // initTela(&tft, tela, TELA_SELECIONAR_CICLO);
     // delay(5000);
     // initTela(&tft, tela, TELA_EM_CICLO);
     // delay(5000);
-
-    // initTela(&tft, tela, TELA_TESTE);
 }
 
 void loop() {
