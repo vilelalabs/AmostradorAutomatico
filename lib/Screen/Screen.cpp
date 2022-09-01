@@ -55,6 +55,15 @@ void Screen::changeLabel(uint8_t index, char *text) {
     }
 }
 
+void Screen::changeButton(uint8_t index, char *text) {
+    if (index < MAX_BUTTONS) {
+        this->buttons[index].setTitle(text);
+        this->buttons[index].draw();
+    } else {
+        Serial.println("Button Index out of bounds, Check MAX_BUTTONS and function changeButton index argument.");
+    }
+}
+
 void Screen::draw() {
     for (int i = 0; i < MAX_LABELS; i++) {
         if (!this->labels[i].getIsNull()) {

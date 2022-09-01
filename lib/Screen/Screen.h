@@ -31,6 +31,7 @@ class Screen {
     void addButton(uint8_t index, TFTButton button);
 
     void changeLabel(uint8_t index, char *text);
+    void changeButton(uint8_t index, char *text);
     void draw();
     int readButtons();
 
