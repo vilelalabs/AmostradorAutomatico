@@ -3,6 +3,7 @@ updated: at least: 2022-08-24
 */
 
 #include <EEPROMFunctions.h>
+#include <Heater.h>
 #include <Logic.h>
 #include <Telas/Telas.h>
 #include <TemperatureSensor.h>
@@ -62,28 +63,6 @@ auto changeScreen = [](SCREEN_INDEX index) {
     initTela(&tft, tela, index);
 };
 
-// VARIÁVEIS GLOBAIS PARA INTERAÇÕES COM A TELA E PROCESSOS DE TIMER (EX: MILLIS)
-//----Labels Varáveis (LV)----
-//-- LV - TelaAguardandoTemperatura --
-char temperaturaAtualTelaAguardandoTemperatura[10] = "         ";
-char temperaturaProgramadaTelaAguardandoTemperatura[10] = "         ";
-//-- LV - TelaConfigTemperatura --
-char temperaturaDesejadaTelaConfigTemperatura[10] = "         ";
-char temperaturaAtualTelaConfigTemperatura[10] = "         ";
-//-- LV - TelaConfigCiclos --
-char limpezaTelaConfigCiclos[5] = "    ";
-char insercaoTelaConfigCiclos[5] = "    ";
-char coletaTelaConfigCiclos[5] = "    ";
-//-- LV - TelaSelecionarCiclo --
-char limpezaTelaSelecionarCiclo[5] = "    ";
-//-- LV - TelaEmCiclo --
-char statusTelaEmCiclo[15] = "              ";
-char cicloTelaEmCiclo[5] = "    ";
-char temperaturaTelaEmCiclo[10] = "         ";
-char tempoTelaEmCiclo[5] = "    ";
-char buttonTelaEmCiclo[12] = "           ";
-
-// FUNÇÕES DE EXECUÇÃO INDIVIDUAIS DOS BOTÕES
 
 // LIMPA OBJETOS
 void clearScreen() {
@@ -128,15 +107,18 @@ void TelaConfiguracao(TFTScreen *tft, Screen *tela) {
 bool stopTelaAguardandoTemperatura = false;
 static bool telaAguardandoTemperaturaActive = false;
 void TelaAguardandoTemperatura(TFTScreen *tft, Screen *tela) {
+    char temperaturaAtualTelaAguardandoTemperatura[10] = "         ";
+    char temperaturaProgramadaTelaAguardandoTemperatura[10] = "         ";
+
     telaAguardandoTemperaturaActive = true;
     // Title of Screen
     tela->addLabel(0, TFTLabel(tft, 0, 0, "AGUARDANDO", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
     tela->addLabel(1, TFTLabel(tft, 0, 30, "TEMPERATURA", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
 
     tela->addLabel(2, TFTLabel(tft, 90, 75, "ATUAL:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-    tela->addLabel(3, TFTLabel(tft, 190, 75, "   ", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    tela->addLabel(3, TFTLabel(tft, 190, 75, "     ", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
     tela->addLabel(4, TFTLabel(tft, 30, 115, "PROGRAMADA:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
-    tela->addLabel(5, TFTLabel(tft, 190, 115, "   ", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
+    tela->addLabel(5, TFTLabel(tft, 190, 115, "     ", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
 
     tela->addButton(0, TFTButton(tft, 0, 170, "VOLTAR", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { changeScreen(TELA_SELECAO_INICIAL); }));
     tela->draw();
@@ -145,7 +127,7 @@ void TelaAguardandoTemperatura(TFTScreen *tft, Screen *tela) {
         telaAguardandoTemperaturaActive = false;
         unsigned long updateLabel = millis();
         float temperaturaProgramada = EEPROMReadFloat(TEMPERATURA_EEPROM_ADDRESS);
-        
+
         float temperaturaAtual = getTemperature();
         while (1) {
             if (millis() > updateLabel + 1000) {
@@ -162,7 +144,11 @@ void TelaAguardandoTemperatura(TFTScreen *tft, Screen *tela) {
                 stopTelaAguardandoTemperatura = true;
             }
 
-            if (temperaturaAtual == temperaturaProgramada) {  // comparação correta ">=", == apenas para testes
+            // verifica se a resistencia de aquecimento deve ser liga/desligada
+            activateHeater(temperaturaAtual, temperaturaProgramada);
+
+            if (temperaturaAtual >= temperaturaProgramada) {  // comparação correta ">=", == apenas para testes
+                activateHeater(getTemperature(), temperaturaProgramada);
                 tela->changeLabel(0, (char *)"TEMPERATURA");
                 tela->changeLabel(1, (char *)"  CORRETA! ");
                 delay(2000);
@@ -182,6 +168,8 @@ bool stopTelaConfigTemperatura = false;
 static bool telaConfigTemperaturaActive = false;
 
 void TelaConfigTemperatura(TFTScreen *tft, Screen *tela) {
+    char temperaturaDesejadaTelaConfigTemperatura[10] = "         ";
+    char temperaturaAtualTelaConfigTemperatura[10] = "         ";
     telaConfigTemperaturaActive = true;
     tela->addLabel(0, TFTLabel(tft, 0, 0, "TEMPERATURA", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
 
@@ -258,6 +246,10 @@ bool stopTelaConfigCiclos = false;
 static bool telaConfigCiclosActive = false;
 
 void TelaConfigCiclos(TFTScreen *tft, Screen *tela) {
+    char limpezaTelaConfigCiclos[5] = "    ";
+    char insercaoTelaConfigCiclos[5] = "    ";
+    char coletaTelaConfigCiclos[5] = "    ";
+
     telaConfigCiclosActive = true;
     // Title
     tela->addLabel(0, TFTLabel(tft, 0, 0, "TEMPO - CICLOS", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
@@ -428,11 +420,32 @@ void TelaIniciar(TFTScreen *tft, Screen *tela) {
                     }));
     tela->addButton(2, TFTButton(tft, 0, SCREEN_H / 2 + 30, "SEL. CICLO", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { changeScreen(TELA_SELECIONAR_CICLO); }));
     tela->draw();
+
+    unsigned long updateHeaterTime = millis();
+    float temperaturaAtual = getTemperature();
+    const float temperaturaProgramada = EEPROMReadFloat(TEMPERATURA_EEPROM_ADDRESS);
+    while (1) {
+        if (millis() > updateHeaterTime + 1000) {
+            temperaturaAtual = getTemperature();
+            updateHeaterTime = millis();
+        }
+        activateHeater(temperaturaAtual, temperaturaProgramada);
+
+        const int button = readButtonsTela(tela);
+        if (button == 0 || button == 1 || button == 2) {
+            if (button == 0) {
+                turnOffHeater();
+            }
+            break;
+        }
+    }
 }
 //------------------------------------------------------------------------------------------------------------------------
 bool stopTelaSelecionarCiclo = false;
 static bool telaSelecionarCicloActive = false;
 void TelaSelecionarCiclo(TFTScreen *tft, Screen *tela) {
+    char limpezaTelaSelecionarCiclo[5] = "    ";
+
     telaSelecionarCicloActive = true;
     tela->addLabel(0, TFTLabel(tft, 0, 0, "SELECIONAR CICLO", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
     tela->addLabel(1, TFTLabel(tft, SCREEN_W / 2 - 25, 80, "    ", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
@@ -454,6 +467,10 @@ void TelaSelecionarCiclo(TFTScreen *tft, Screen *tela) {
         // variaveis usadas na tela
         int ciclo = EEPROMReadInt(CICLO_INICIAL_EEPROM_ADDRESS);
 
+        unsigned long updateHeaterTime = millis();
+        float temperaturaAtual = getTemperature();
+        const float temperaturaProgramada = EEPROMReadFloat(TEMPERATURA_EEPROM_ADDRESS);
+
         while (1) {
             if (millis() > updateLabel + 250) {
                 // conversoes das variaveis para string
@@ -463,6 +480,14 @@ void TelaSelecionarCiclo(TFTScreen *tft, Screen *tela) {
 
                 updateLabel = millis();
             }
+            if (millis() > updateHeaterTime + 1000) {
+                temperaturaAtual = getTemperature();
+                Serial.println("Testando temperaturas: ");
+                Serial.println("temperaturaAtual: " + String(temperaturaAtual));
+                Serial.println("temperaturaProgramada: " + String(temperaturaProgramada));
+                updateHeaterTime = millis();
+            }
+            activateHeater(temperaturaAtual, temperaturaProgramada);
 
             switch (readButtonsTela(tela)) {
                 case 0:  // LEFT
@@ -493,6 +518,11 @@ void TelaSelecionarCiclo(TFTScreen *tft, Screen *tela) {
 bool stopTelaEmCiclo = false;
 static bool telaEmCicloActive = false;
 void TelaEmCiclo(TFTScreen *tft, Screen *tela) {
+    char statusTelaEmCiclo[15] = "              ";
+    char cicloTelaEmCiclo[5] = "    ";
+    char temperaturaTelaEmCiclo[10] = "         ";
+    char tempoTelaEmCiclo[5] = "    ";
+    char buttonTelaEmCiclo[12] = "           ";
     telaEmCicloActive = true;
     bool stoppingAsked = false;
     // Title
@@ -522,8 +552,10 @@ void TelaEmCiclo(TFTScreen *tft, Screen *tela) {
         // inicia primeiro ciclo solicitado
         delay(2000);
         executaCiclo(ciclo, tarefa);
-
+        const float temperaturaProgramada = EEPROMReadFloat(TEMPERATURA_EEPROM_ADDRESS);
         while (1) {
+            activateHeater(getTemperature(), temperaturaProgramada);
+            delay(100);
             if (millis() > updateLabel + 1000) {
                 updateLabel = millis();
                 // conversoes das variaveis para string
