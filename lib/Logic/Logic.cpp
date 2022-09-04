@@ -1,9 +1,5 @@
 #include "Logic.h"
 
-// A Lógica de acionamento em barras de reles no geral é invertida (aciona com GND)
-#define LIGA 0
-#define DESLIGA 1
-
 /* válvulas para os ciclos de 1 a 10 em ordem
 VÁLVULA 1: 23 / VÁLVULA 2: 25 / VÁLVULA 3: 27
 VÁLVULA 4: 29 / VÁLVULA 5: 31 / VÁLVULA 6: 33
@@ -13,10 +9,10 @@ const uint8_t valvPins[] = {23, 25, 27, 29, 31, 33, 35, 37, 39, 41};
 
 /* Válvulas para acionamentos especiais
 VX = 53 / VY = 49 / VZ = 47 / BOMBZ = 45 */
-const uint8_t valvXPin = 53;
-const uint8_t valvYPin = 49;
-const uint8_t valvZPin = 47;
-const uint8_t bombZPin = 45;
+const uint8_t valvXPin = 45;
+const uint8_t valvYPin = 47;
+const uint8_t valvZPin = 49;
+const uint8_t bombZPin = 53;
 
 // salva o estado das válvulas
 uint8_t valv[MAX_VALV];
