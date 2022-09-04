@@ -19,9 +19,12 @@ void setup() {
     //inicializa válvulas
     setupValvulas();
 
-    // initTela(&tft, tela, TELA_TITULO);
-    // delay(4000);
-    // initTela(&tft, tela, TELA_SELECAO_INICIAL);
+    //inicializa o aquecedor
+    setupHeater();
+
+     initTela(&tft, tela, TELA_TITULO);
+     delay(3000);
+     initTela(&tft, tela, TELA_SELECAO_INICIAL);
     //   delay(5000);
     // initTela(&tft, tela, TELA_CONFIGURACAO);
     //  delay(5000);
@@ -31,7 +34,7 @@ void setup() {
     // delay(5000);
     // initTela(&tft, tela, TELA_CONFIG_CICLOS);
     // delay(5000);
-     initTela(&tft, tela, TELA_INICIAR);
+    // initTela(&tft, tela, TELA_INICIAR);
     // delay(5000);
     // initTela(&tft, tela, TELA_SELECIONAR_CICLO);
     // delay(5000);
