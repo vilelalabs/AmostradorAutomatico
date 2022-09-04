@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 #include <EEPROMFunctions.h>
+#include <Heater.h>
 #include <Logic.h>
 #include <Screen.h>
 #include <TFTButton.h>
