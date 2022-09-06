@@ -1,3 +1,13 @@
+/*
+    @author: Henrique Vilela
+    @created: 2022-08-22
+    @updated: 2022-08-03
+    @version: 1.0
+    @description
+        - Main file for the project
+        - Initializes all the components, timers, EEPROM memory and starts the main loop
+
+*/
 
 #include <main.h>
 
@@ -16,15 +26,15 @@ void setup() {
     // inicializa o sensor de temperatura
     setupTemperatureSensor();
 
-    //inicializa válvulas
+    // inicializa válvulas
     setupValvulas();
 
-    //inicializa o aquecedor
+    // inicializa o aquecedor
     setupHeater();
 
-     initTela(&tft, tela, TELA_TITULO);
-     delay(3000);
-     initTela(&tft, tela, TELA_SELECAO_INICIAL);
+    initTela(&tft, tela, TELA_TITULO);
+    delay(3000);
+    initTela(&tft, tela, TELA_SELECAO_INICIAL);
     //   delay(5000);
     // initTela(&tft, tela, TELA_CONFIGURACAO);
     //  delay(5000);

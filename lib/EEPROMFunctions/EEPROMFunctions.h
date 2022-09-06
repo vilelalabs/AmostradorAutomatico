@@ -1,3 +1,12 @@
+/*
+    @author: Henrique Vilela
+    @created: 2022-08-31
+    @updated: 2022-09-01
+    @version: 1.0
+    @description
+        Functions to read and write EEPROM in different data types
+*/
+
 #pragma once
 
 #include <Arduino.h>

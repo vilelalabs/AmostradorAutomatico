@@ -1,5 +1,11 @@
 /*
-updated: at least: 2022-08-24
+    @author: Henrique Vilela
+    @created: 2022-08-24
+    @updated: 2022-09-03
+    @version: 1.0
+    @description
+        - Implements functions of Telas.h file
+        - Initialize and instances main variables and objects for whole project
 */
 
 #include <EEPROMFunctions.h>
@@ -62,7 +68,6 @@ auto changeScreen = [](SCREEN_INDEX index) {
     tela = new Screen();
     initTela(&tft, tela, index);
 };
-
 
 // LIMPA OBJETOS
 void clearScreen() {

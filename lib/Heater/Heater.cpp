@@ -1,3 +1,12 @@
+/*
+    @author: Henrique Vilela
+    @created: 2022-09-03
+    @updated: 2022-09-03
+    @version: 1.0
+    @description
+        Implements functions to activate heater
+*/
+
 #include <Heater.h>
 
 static bool resistorStatus = RES_DESLIGADA;

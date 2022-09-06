@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated at least in: 2022-08-25
+    @updated at least in: 2022-08-31
     @version: 1.0
     @description
         Declaration of Screen Class
@@ -10,8 +10,8 @@
 #include <TFTButton.h>
 #include <TFTLabel.h>
 
-#define MAX_LABELS 8   // default minimum 8  / 4 for tests using Arduino Uno
-#define MAX_BUTTONS 8  // default minimum 7  / 4 for tests using Arduino Uno
+#define MAX_LABELS 8   // default minimum 8 
+#define MAX_BUTTONS 8  // default minimum 8
 
 #pragma once
 

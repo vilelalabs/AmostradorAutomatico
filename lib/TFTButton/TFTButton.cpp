@@ -4,7 +4,7 @@
     @updated: 2022-08-25
     @version: 1.0
     @description
-        implements TFTButton class
+        Implements TFTButton class
 
 */
 

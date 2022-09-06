@@ -1,10 +1,11 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-22
+    @updated: 2022-08-25
     @version: 1.0
     @description
-        Generate buttons for TFT Button
+        - Declares TFTButton class
+        - Generate Buttons for TFTScreen using TFTObject Class
 
 */
 

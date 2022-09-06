@@ -1,3 +1,14 @@
+/*
+    @author: Henrique Vilela
+    @created: 2022-08-24
+    @updated: 2022-08-31
+    @version: 1.0
+    @description
+        - Declares main functions for each screen shown in the TFT
+        - This functions controls main screen actions and touch events for each screen
+
+*/
+
 #pragma once
 
 #include <Screen.h>

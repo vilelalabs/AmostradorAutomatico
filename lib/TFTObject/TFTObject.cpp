@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated at least in: 2022-08-25
+    @updated at least in: 2022-08-26
     @version: 1.0
     @description
         Implements TFTObject Class
@@ -101,11 +101,11 @@ const char *TFTObject::getTitle() {
     return this->title;
 }
 
-void TFTObject::setTitle(const char *title){
+void TFTObject::setTitle(const char *title) {
     this->title = title;
 }
 
-    uint8_t TFTObject::getTextWidth() {
+uint8_t TFTObject::getTextWidth() {
     return textWidth;
 }
 uint8_t TFTObject::getTextHeight() {

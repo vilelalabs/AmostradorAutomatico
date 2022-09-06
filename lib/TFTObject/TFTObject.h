@@ -1,10 +1,11 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-21
+    @updated: 2022-08-26
     @version: 1.0
     @description
-        Generate objects for TFT Button
+        - Declares TFTObject class
+        - Generic Objects to be shown in TFTScreen
 
 */
 

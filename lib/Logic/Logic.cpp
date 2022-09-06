@@ -1,3 +1,12 @@
+/*
+    @author: Henrique Vilela
+    @created: 2022-08-31
+    @updated: 2022-09-03
+    @version: 1.0
+    @description
+        Implements functions with main logic of project "Amostrador Automático"
+*/
+
 #include "Logic.h"
 
 /* válvulas para os ciclos de 1 a 10 em ordem

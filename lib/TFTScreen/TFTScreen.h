@@ -1,10 +1,11 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-21
+    @updated: 2022-08-30
     @version: 1.0
     @description
-        TFT Touch Screen
+        Declares TFTScreen class
+        Controls screen view and touch events
 */
 
 #pragma once

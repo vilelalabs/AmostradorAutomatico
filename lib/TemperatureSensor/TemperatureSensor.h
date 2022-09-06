@@ -1,3 +1,12 @@
+/*
+    @author: Henrique Vilela
+    @created: 2022-08-30
+    @updated: 2022-09-02
+    @version: 1.0
+    @description
+        Declares functions for Temperature Sensor Actions
+*/
+
 #pragma once
 
 #include <Arduino.h>

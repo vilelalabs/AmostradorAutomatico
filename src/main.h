@@ -1,3 +1,13 @@
+/*
+    @author: Henrique Vilela
+    @created: 2022-08-24
+    @updated: 2022-08-31
+    @version: 1.0
+    @description
+        - Include for main.cpp file
+
+*/
+
 #pragma once
 
 #include <Arduino.h>

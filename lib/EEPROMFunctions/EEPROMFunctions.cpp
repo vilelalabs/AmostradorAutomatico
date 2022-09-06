@@ -1,3 +1,12 @@
+/*
+    @author: Henrique Vilela
+    @created: 2022-08-31
+    @updated: 2022-09-01
+    @version: 1.0
+    @description
+        Implements EEPROM read and write data functions
+*/
+
 #include "EEPROMFunctions.h"
 
 byte varByte;

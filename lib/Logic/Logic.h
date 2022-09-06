@@ -1,3 +1,12 @@
+/*
+    @author: Henrique Vilela
+    @created: 2022-08-31
+    @updated: 2022-09-03
+    @version: 1.0
+    @description
+        Declares functions with main logic of project "Amostrador Automático"
+*/
+
 #pragma once
 
 #include <Arduino.h>
