@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-22
-    @updated: 2022-08-03
+    @updated: 2022-09-23
     @version: 1.0
     @description
         - Main file for the project
@@ -33,23 +33,8 @@ void setup() {
     setupHeater();
 
     initTela(&tft, tela, TELA_TITULO);
-    delay(3000);
+    delay(4000);
     initTela(&tft, tela, TELA_SELECAO_INICIAL);
-    //   delay(5000);
-    // initTela(&tft, tela, TELA_CONFIGURACAO);
-    //  delay(5000);
-    // initTela(&tft, tela, TELA_AGUARDANDO_TEMPERATURA);
-    // delay(5000);
-    // initTela(&tft, tela, TELA_CONFIG_TEMPERATURA);
-    // delay(5000);
-    // initTela(&tft, tela, TELA_CONFIG_CICLOS);
-    // delay(5000);
-    // initTela(&tft, tela, TELA_INICIAR);
-    // delay(5000);
-    // initTela(&tft, tela, TELA_SELECIONAR_CICLO);
-    // delay(5000);
-    // initTela(&tft, tela, TELA_EM_CICLO);
-    // delay(5000);
 }
 
 void loop() {
