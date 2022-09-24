@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated at least in: 2022-08-31
+    @updated: 2022-08-31
     @version: 1.0
     @description
         Declaration of Screen Class
