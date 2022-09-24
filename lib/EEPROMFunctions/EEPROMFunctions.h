@@ -25,7 +25,7 @@
 
 // FIRST_RUN_CODE pode ser qualquer valor, preferencialmente diferente de 0x0000 ou 0xFFFF
 // Mude este número para qualquer outro se quiser reiniciar a EEPROM totalmente zerada na próxima compilação
-#define FIRST_RUN_CODE 233
+#define FIRST_RUN_CODE 177
 
 void EEPROMWriteInt(int address, int value);  // 2 Bytes
 int EEPROMReadInt(int address);
