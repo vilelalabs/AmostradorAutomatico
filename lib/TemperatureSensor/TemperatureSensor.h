@@ -10,7 +10,6 @@
 #pragma once
 
 #include <Arduino.h>
-#include <DHT.h>
 #include <DallasTemperature.h>
 #include <OneWire.h>
 
