@@ -12,8 +12,8 @@
 #include <Arduino.h>
 
 // A Lógica de acionamento em barras de reles no geral é invertida (aciona com GND)
-#define LIGA 1
-#define DESLIGA 0
+#define LIGA 0
+#define DESLIGA 1
 
 #define MAX_VALV 10
 

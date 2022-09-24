@@ -11,8 +11,8 @@
 
 #include <Arduino.h>
 
-#define RES_LIGADA 1
-#define RES_DESLIGADA 0
+#define RES_LIGADA 0
+#define RES_DESLIGADA 1
 
 #define RESISTOR_PIN 51
 
