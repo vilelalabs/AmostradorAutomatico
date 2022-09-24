@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-24
-    @updated: 2022-09-03
+    @updated: 2022-09-23
     @version: 1.0
     @description
         - Implements functions of Telas.h file
@@ -91,16 +91,16 @@ void TelaTitulo(TFTScreen *tft, Screen *tela) {
     tela->addLabel(4, TFTLabel(tft, 50, SCREEN_H - 30, "hvilela.com", OBJ_POS_CENTER, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
     tela->draw();
 }
-//------------------------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------------------------------------------------
 void TelaSelecaoInicial(TFTScreen *tft, Screen *tela) {
     tela->addLabel(0, TFTLabel(tft, 0, 0, "AMOSTRADOR AUTOMATICO", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
     tela->addButton(0, TFTButton(tft, 0, SCREEN_H / 2 - 50, "CONFIGURACAO", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { changeScreen(TELA_CONFIGURACAO); }));
     tela->addButton(1, TFTButton(tft, 0, SCREEN_H / 2 + 30, "INICIAR", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { changeScreen(TELA_AGUARDANDO_TEMPERATURA); }));
     tela->draw();
 }
-//------------------------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------------------------------------------------
 void TelaConfiguracao(TFTScreen *tft, Screen *tela) {
     tela->addLabel(0, TFTLabel(tft, 0, 0, "CONFIGURACAO", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
     tela->addButton(0, TFTButton(tft, 0, 0, "<", OBJ_POS_LEFT, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { changeScreen(TELA_SELECAO_INICIAL); }));
@@ -108,6 +108,7 @@ void TelaConfiguracao(TFTScreen *tft, Screen *tela) {
     tela->addButton(2, TFTButton(tft, 0, SCREEN_H / 2 + 30, "T. CICLOS", OBJ_POS_CENTER, BTN_TYPE_TEXT_BLUE, OBJ_SIZE_FIXED, []() { changeScreen(TELA_CONFIG_CICLOS); }));
     tela->draw();
 }
+
 //------------------------------------------------------------------------------------------------------------------------
 bool stopTelaAguardandoTemperatura = false;
 static bool telaAguardandoTemperaturaActive = false;
@@ -152,7 +153,7 @@ void TelaAguardandoTemperatura(TFTScreen *tft, Screen *tela) {
             // verifica se a resistencia de aquecimento deve ser liga/desligada
             activateHeater(temperaturaAtual, temperaturaProgramada);
 
-            if (temperaturaAtual >= temperaturaProgramada) {  // comparação correta ">=", == apenas para testes
+            if (temperaturaAtual >= temperaturaProgramada) {
                 activateHeater(getTemperature(), temperaturaProgramada);
                 tela->changeLabel(0, (char *)"TEMPERATURA");
                 tela->changeLabel(1, (char *)"  CORRETA! ");
@@ -167,11 +168,10 @@ void TelaAguardandoTemperatura(TFTScreen *tft, Screen *tela) {
         }
     }
 }
-//------------------------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------------------------------------------------
 bool stopTelaConfigTemperatura = false;
 static bool telaConfigTemperaturaActive = false;
-
 void TelaConfigTemperatura(TFTScreen *tft, Screen *tela) {
     char temperaturaDesejadaTelaConfigTemperatura[10] = "         ";
     char temperaturaAtualTelaConfigTemperatura[10] = "         ";
@@ -187,10 +187,10 @@ void TelaConfigTemperatura(TFTScreen *tft, Screen *tela) {
     tela->addButton(0, TFTButton(tft, 0, 0, " ", OBJ_POS_LEFT, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { changeScreen(TELA_CONFIGURACAO); }));
 
     // Navigation
-    tela->addButton(1, TFTButton(tft, 0, SCREEN_H - 50, "-10", OBJ_POS_LEFT, BTN_TYPE_TENTH_MINUS10, OBJ_SIZE_TEXT, []() { Serial.println("-10"); }));
-    tela->addButton(2, TFTButton(tft, 100, SCREEN_H - 50, "<", OBJ_POS_NONE, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { Serial.println("-1"); }));
-    tela->addButton(3, TFTButton(tft, SCREEN_W - 150, SCREEN_H - 50, ">", OBJ_POS_NONE, BTN_TYPE_ARROW_RIGHT, OBJ_SIZE_TEXT, []() { Serial.println("+1"); }));
-    tela->addButton(4, TFTButton(tft, 0, SCREEN_H - 50, "+10", OBJ_POS_RIGHT, BTN_TYPE_TENTH_PLUS10, OBJ_SIZE_TEXT, []() { Serial.println("+10"); }));
+    tela->addButton(1, TFTButton(tft, 0, SCREEN_H - 50, "-10", OBJ_POS_LEFT, BTN_TYPE_TENTH_MINUS10, OBJ_SIZE_TEXT, []() {}));
+    tela->addButton(2, TFTButton(tft, 100, SCREEN_H - 50, "<", OBJ_POS_NONE, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() {}));
+    tela->addButton(3, TFTButton(tft, SCREEN_W - 150, SCREEN_H - 50, ">", OBJ_POS_NONE, BTN_TYPE_ARROW_RIGHT, OBJ_SIZE_TEXT, []() {}));
+    tela->addButton(4, TFTButton(tft, 0, SCREEN_H - 50, "+10", OBJ_POS_RIGHT, BTN_TYPE_TENTH_PLUS10, OBJ_SIZE_TEXT, []() {}));
     tela->draw();
 
     if (telaConfigTemperaturaActive) {
@@ -245,11 +245,10 @@ void TelaConfigTemperatura(TFTScreen *tft, Screen *tela) {
         }
     }
 }
-//------------------------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------------------------------------------------
 bool stopTelaConfigCiclos = false;
 static bool telaConfigCiclosActive = false;
-
 void TelaConfigCiclos(TFTScreen *tft, Screen *tela) {
     char limpezaTelaConfigCiclos[5] = "    ";
     char insercaoTelaConfigCiclos[5] = "    ";
@@ -271,14 +270,14 @@ void TelaConfigCiclos(TFTScreen *tft, Screen *tela) {
     tela->addButton(0, TFTButton(tft, 0, 0, " ", OBJ_POS_LEFT, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { changeScreen(TELA_CONFIGURACAO); }));
 
     // Options
-    tela->addButton(1, TFTButton(tft, 0, 60, "A", OBJ_POS_RIGHT, BTN_TYPE_ARROW_UP, OBJ_SIZE_TEXT, []() { Serial.println("UP"); }));
-    tela->addButton(2, TFTButton(tft, 0, 130, "A", OBJ_POS_RIGHT, BTN_TYPE_ARROW_DOWN, OBJ_SIZE_TEXT, []() { Serial.println("DOWN"); }));
+    tela->addButton(1, TFTButton(tft, 0, 60, "U", OBJ_POS_RIGHT, BTN_TYPE_ARROW_UP, OBJ_SIZE_TEXT, []() {}));
+    tela->addButton(2, TFTButton(tft, 0, 130, "D", OBJ_POS_RIGHT, BTN_TYPE_ARROW_DOWN, OBJ_SIZE_TEXT, []() {}));
 
     // Navigation
-    tela->addButton(3, TFTButton(tft, 0, SCREEN_H - 50, "-10", OBJ_POS_LEFT, BTN_TYPE_TENTH_MINUS10, OBJ_SIZE_TEXT, []() { Serial.println("-10"); }));
-    tela->addButton(4, TFTButton(tft, 100, SCREEN_H - 50, "<", OBJ_POS_NONE, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { Serial.println("-1"); }));
-    tela->addButton(5, TFTButton(tft, SCREEN_W - 150, SCREEN_H - 50, ">", OBJ_POS_NONE, BTN_TYPE_ARROW_RIGHT, OBJ_SIZE_TEXT, []() { Serial.println("+1"); }));
-    tela->addButton(6, TFTButton(tft, 0, SCREEN_H - 50, "+10", OBJ_POS_RIGHT, BTN_TYPE_TENTH_PLUS10, OBJ_SIZE_TEXT, []() { Serial.println("+10"); }));
+    tela->addButton(3, TFTButton(tft, 0, SCREEN_H - 50, "-10", OBJ_POS_LEFT, BTN_TYPE_TENTH_MINUS10, OBJ_SIZE_TEXT, []() {}));
+    tela->addButton(4, TFTButton(tft, 100, SCREEN_H - 50, "<", OBJ_POS_NONE, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() {}));
+    tela->addButton(5, TFTButton(tft, SCREEN_W - 150, SCREEN_H - 50, ">", OBJ_POS_NONE, BTN_TYPE_ARROW_RIGHT, OBJ_SIZE_TEXT, []() {}));
+    tela->addButton(6, TFTButton(tft, 0, SCREEN_H - 50, "+10", OBJ_POS_RIGHT, BTN_TYPE_TENTH_PLUS10, OBJ_SIZE_TEXT, []() {}));
     tela->draw();
 
     if (telaConfigCiclosActive) {
@@ -290,7 +289,7 @@ void TelaConfigCiclos(TFTScreen *tft, Screen *tela) {
         int insercaoTempo = EEPROMReadInt(CICLO_INSERCAO_EEPROM_ADDRESS);
         int coletaTempo = EEPROMReadInt(CICLO_COLETA_EEPROM_ADDRESS);
 
-        /* para efeito de selecao na tela*/
+        // para efeito de selecao na tela
         int itemSelecionado = 0;  // 1 - limpeza, 2 - insercao, 3 - coleta
         tft->drawPointer(tela->getLabel(1).getX() - 10, tela->getLabel(1).getY());
 
@@ -324,8 +323,8 @@ void TelaConfigCiclos(TFTScreen *tft, Screen *tela) {
                         tft->getTFT().fillRect(tela->getLabel(1).getX() - 10, tela->getLabel(1).getY() + 15, 16, 78, BLACK);
                         tft->drawPointer(tela->getLabel(itemSelecionado + 1).getX() - 10, tela->getLabel(itemSelecionado + 1).getY());
                     }
-
                     break;
+
                 case 3:
                     switch (itemSelecionado) {
                         case 0:
@@ -412,14 +411,13 @@ void TelaConfigCiclos(TFTScreen *tft, Screen *tela) {
         }
     }
 }
-//------------------------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------------------------------------------------
 void TelaIniciar(TFTScreen *tft, Screen *tela) {
     tela->addLabel(0, TFTLabel(tft, 0, 0, "INICIAR", OBJ_POS_CENTER, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
 
     tela->addButton(0, TFTButton(tft, 0, 0, " ", OBJ_POS_LEFT, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { changeScreen(TELA_SELECAO_INICIAL); }));
     tela->addButton(1, TFTButton(tft, 0, SCREEN_H / 2 - 50, "DO 1o CICLO", OBJ_POS_CENTER, BTN_TYPE_TEXT_GREEN, OBJ_SIZE_FIXED, []() {
-                        Serial.println("Iniciar Operacoes...");
                         EEPROMWriteInt(CICLO_INICIAL_EEPROM_ADDRESS, 1);
                         changeScreen(TELA_EM_CICLO);
                     }));
@@ -445,6 +443,7 @@ void TelaIniciar(TFTScreen *tft, Screen *tela) {
         }
     }
 }
+
 //------------------------------------------------------------------------------------------------------------------------
 bool stopTelaSelecionarCiclo = false;
 static bool telaSelecionarCicloActive = false;
@@ -456,11 +455,10 @@ void TelaSelecionarCiclo(TFTScreen *tft, Screen *tela) {
     tela->addLabel(1, TFTLabel(tft, SCREEN_W / 2 - 25, 80, "    ", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
 
     // Options
-    tela->addButton(0, TFTButton(tft, 27, 75, "<", OBJ_POS_NONE, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() { Serial.println("CICLO ANTERIOR"); }));
-    tela->addButton(1, TFTButton(tft, 250, 75, ">", OBJ_POS_NONE, BTN_TYPE_ARROW_RIGHT, OBJ_SIZE_TEXT, []() { Serial.println("PROXIMO CICLO"); }));
+    tela->addButton(0, TFTButton(tft, 27, 75, "<", OBJ_POS_NONE, BTN_TYPE_ARROW_LEFT, OBJ_SIZE_TEXT, []() {}));
+    tela->addButton(1, TFTButton(tft, 250, 75, ">", OBJ_POS_NONE, BTN_TYPE_ARROW_RIGHT, OBJ_SIZE_TEXT, []() {}));
 
     tela->addButton(2, TFTButton(tft, 0, 170, "INICIAR", OBJ_POS_CENTER, BTN_TYPE_TEXT_GREEN, OBJ_SIZE_FIXED, []() {
-                        Serial.println("Iniciar Operacoes...");
                         changeScreen(TELA_EM_CICLO);
                     }));
     tela->draw();
@@ -487,9 +485,6 @@ void TelaSelecionarCiclo(TFTScreen *tft, Screen *tela) {
             }
             if (millis() > updateHeaterTime + 1000) {
                 temperaturaAtual = getTemperature();
-                Serial.println("Testando temperaturas: ");
-                Serial.println("temperaturaAtual: " + String(temperaturaAtual));
-                Serial.println("temperaturaProgramada: " + String(temperaturaProgramada));
                 updateHeaterTime = millis();
             }
             activateHeater(temperaturaAtual, temperaturaProgramada);
@@ -518,8 +513,8 @@ void TelaSelecionarCiclo(TFTScreen *tft, Screen *tela) {
         }
     }
 }
-//------------------------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------------------------------------------------
 bool stopTelaEmCiclo = false;
 static bool telaEmCicloActive = false;
 void TelaEmCiclo(TFTScreen *tft, Screen *tela) {
@@ -528,8 +523,10 @@ void TelaEmCiclo(TFTScreen *tft, Screen *tela) {
     char temperaturaTelaEmCiclo[10] = "         ";
     char tempoTelaEmCiclo[5] = "    ";
     char buttonTelaEmCiclo[12] = "           ";
+    
     telaEmCicloActive = true;
     bool stoppingAsked = false;
+    
     // Title
     tela->addLabel(0, TFTLabel(tft, 24, 0, "STATUS:", OBJ_POS_NONE, LBL_TYPE_TITLE, OBJ_SIZE_TEXT));
     tela->addLabel(1, TFTLabel(tft, 153, 0, "           ", OBJ_POS_NONE, LBL_TYPE_DATA, OBJ_SIZE_TEXT));
