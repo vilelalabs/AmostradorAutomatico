@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-24
+    @updated: 2022-09-23
     @version: 1.0
     @description
         - Declares TFTLabel class
@@ -20,7 +20,6 @@ enum LABEL_TYPE : uint8_t {
 };
 
 class TFTLabel : public TFTObject {
-    // using TFTObject::TFTObject;
 
    private:
     bool isNull = true;

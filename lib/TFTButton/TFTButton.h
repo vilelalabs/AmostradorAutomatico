@@ -29,8 +29,7 @@ enum BUTTON_TYPE : uint8_t {
 };
 
 class TFTButton : public TFTObject {
-    // using TFTObject::TFTObject;
-
+    
    private:
     bool isNull = true;
     BUTTON_TYPE type;
