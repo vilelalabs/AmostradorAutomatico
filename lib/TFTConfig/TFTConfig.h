@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-30
+    @updated: 2022-09-23
     @version: 1.0
     @description
         General configuration for using the TFT Touch Screen
@@ -35,7 +35,7 @@
 // FONT
 #define FONT_SIZE 2  // default: 2
 
-// TFT TOCHSCREEN  CALIBRATION
+// TFT TOCHSCREEN  CALIBRATION <<<<<<<<<<<<
 
 #define DRIVER 0x9341
 
@@ -50,19 +50,10 @@
 #define TS_TOP 113
 #define TS_BOT 916
 
+// ADDED CONFIGURATION
 #define SCREEN_W 320
 #define SCREEN_H 240
 
-// #define ROTATION 2  // 2 - PORTRAIT MODE -  DONT USE THIS MODE !!!
-// #define TS_LEFT 113
-// #define TS_RT 916
-// #define TS_TOP 80
-// #define TS_BOT 893
-
-// #define SCREEN_W 240
-// #define SCREEN_H 320
-
-// ADDED CONFIGURATION
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
 #define SENSIBILITY 300
