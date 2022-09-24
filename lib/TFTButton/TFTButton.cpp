@@ -204,7 +204,7 @@ void TFTButton::drawReleased() {
 
 // PUBLIC METHODS
 
-// otherconstructor implemented on .H file
+// other constructor implemented on .H file
 TFTButton::TFTButton() {}
 
 bool TFTButton::getIsNull() {
@@ -215,7 +215,7 @@ bool TFTButton::onPress() {
     unsigned long lastTime = millis();
     bool colorChanged = false;
     TSPoint touch = this->getTouch();
-    
+
     if (touch.x > this->getX() && touch.x < this->getX() + this->getW() &&
         touch.y > this->getY() && touch.y < this->getY() + this->getH()) {
         while (millis() < lastTime + BNT_FEEDBACK_TIME) {
