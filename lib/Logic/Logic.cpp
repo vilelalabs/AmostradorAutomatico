@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-31
-    @updated: 2022-09-03
+    @updated: 2022-09-23
     @version: 1.0
     @description
         Implements functions with main logic of project "Amostrador Automático"
@@ -59,11 +59,11 @@ void atribuiValoresAsSaidas(uint8_t vx, uint8_t vy, uint8_t vz, uint8_t bz, uint
 }
 
 void executaCiclo(uint8_t ciclo, Tarefa tarefa) {
-    //ajusta valor do ciclo para o vetor
+    // ajusta valor do ciclo para o vetor
     uint8_t runningCiclo = ciclo - 1;
 
     // encerra função caso numero de ciclo seja incorreto ou tarefa inválida
-    // (não deve ocorrer ao menos que haja algum erro no código)
+    // (NUNCA DEVE OCORRER! ao menos que haja algum erro no código)
     if (runningCiclo > MAX_VALV - 1 || runningCiclo < 0) {
         Serial.println("Ciclo fora do valor permitido!");
         return;
@@ -78,7 +78,6 @@ void executaCiclo(uint8_t ciclo, Tarefa tarefa) {
             for (uint8_t i = 0; i < MAX_VALV; i++) {
                 valv[i] = DESLIGA;
             }
-            Serial.println("Exec. Ciclo: " + (String)ciclo + " - Tarefa: Limpeza");
             break;
         case TAREFA_INSERCAO:
             valvX = DESLIGA;
@@ -88,7 +87,6 @@ void executaCiclo(uint8_t ciclo, Tarefa tarefa) {
             for (uint8_t i = 0; i < MAX_VALV; i++) {
                 valv[i] = DESLIGA;
             }
-            Serial.println("Exec. Ciclo: " + (String)ciclo + " - Tarefa: Inserção");
             break;
         case TAREFA_COLETA:
             valvX = DESLIGA;
@@ -98,7 +96,6 @@ void executaCiclo(uint8_t ciclo, Tarefa tarefa) {
             for (uint8_t i = 0; i < MAX_VALV; i++) {
                 i == runningCiclo ? valv[i] = LIGA : valv[i] = DESLIGA;
             }
-            Serial.println("Exec. Ciclo: " + (String)ciclo + " - Tarefa: Coleta");
             break;
         default:
             break;
@@ -106,7 +103,7 @@ void executaCiclo(uint8_t ciclo, Tarefa tarefa) {
     atribuiValoresAsSaidas(valvX, valvY, valvZ, bombZ, valv);
 }
 
-void resetValvulas(){
+void resetValvulas() {
     valvX = DESLIGA;
     valvY = DESLIGA;
     valvZ = DESLIGA;
