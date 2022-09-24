@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-30
+    @updated: 2022-09-23
     @version: 1.0
     @description
         Implements TFTScreen class
@@ -39,19 +39,6 @@ TSPoint TFTScreen::getTouch() {
         // LANDSCAPE MODE
         outp.x = map(p.y, TS_LEFT, TS_RT, 0, SCREEN_W);
         outp.y = map(p.x, TS_TOP, TS_BOT, 0, SCREEN_H);
-        // PORTRAIT MODE
-        // outp.x = map(p.x, TS_LEFT, TS_RT, 0, SCREEN_W);
-        // outp.y = map(p.y, TS_TOP, TS_BOT, 0, SCREEN_H);
-
-        // DEBUGAR POSIÇÃO DO TOQUE NA TELA
-        //  if(outp.z > 0) {
-        //      Serial.print("X = ");
-        //      Serial.print(outp.x);
-        //      Serial.print("\tY = ");
-        //      Serial.print(outp.y);
-        //      Serial.println();
-        //  }
-        //--------------------------------
 
     } else {
         outp.x = outp.y = outp.z = 0;
