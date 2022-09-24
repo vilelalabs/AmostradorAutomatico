@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-24
+    @updated: 2022-09-23
     @version: 1.0
     @description
         implements TFTLabel class
@@ -10,15 +10,16 @@
 
 #include <TFTLabel.h>
 
-TFTLabel::TFTLabel(){}
+// other constructor implemented on .H file
+TFTLabel::TFTLabel() {}
 
 bool TFTLabel::getIsNull() {
     return this->isNull;
 }
-    void TFTLabel::draw() {
+void TFTLabel::draw() {
     unsigned short color = BLUE;
-    
-    switch(this->type){
+
+    switch (this->type) {
         case LBL_TYPE_TITLE:
             color = WHITE;
             break;
