@@ -1,7 +1,7 @@
 /*
     @author: Henrique Vilela
     @created: 2022-08-20
-    @updated: 2022-08-26
+    @updated: 2022-09-23
     @version: 1.0
     @description
         - Declares TFTObject class
@@ -14,7 +14,7 @@
 #include <TFTConfig.h>
 #include <TFTScreen.h>
 
-#define FIXED_WIDTH (180) //default first: 180
+#define FIXED_WIDTH (180)
 #define FIXED_HEIGHT (60)
 
 enum TFTObjectPosition : uint8_t {
@@ -47,7 +47,7 @@ class TFTObject : public TFTScreen {
 
     TFTObject operator=(TFTObject tftObject);
 
-    void draw(); // override
+    void draw();  // override
 
     TFTScreen *getTFTScreen();
 
@@ -60,7 +60,7 @@ class TFTObject : public TFTScreen {
 
     const char *getTitle();
     void setTitle(const char *title);
-    
+
     uint8_t getTextWidth();
     uint8_t getTextHeight();
 
