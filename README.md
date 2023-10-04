@@ -1,6 +1,6 @@
 # AmostradorAutomatico
 
-
+With this project, you can automatically control the activation of a relay bank based on a temperature range configuration for initiating the operations, as well as its automatic adjustment. Additionally, you can also set the individual time for each of the 10 cycles of cleaning, sample insertion, and collection from 1 to 99 seconds.
 
 ### Configurable IHM Controller for Gas Sampling Laboratory
 
